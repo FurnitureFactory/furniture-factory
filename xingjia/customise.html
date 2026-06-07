@@ -1,0 +1,1311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Furniture Factory — Customise your standing desk</title>
+  <meta name="description" content="Build your standing desk — choose motor, frame colour, wood top, size and edge. Live preview and pricing in SGD." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%235f6b39' width='32' height='32' rx='4'/%3E%3Cpath fill='%23f4efe6' d='M11 20A7 7 0 0 1 4 13c0-5 4.5-9 16-9-1 8-5 13-9 16Z'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+:root{
+  --backdrop:#d4d0c5;
+  --paper:#f3efe7;
+  --surface:#faf7f1;
+  --surface-2:#fefdfb;
+  --mat:#f6f3ec;
+  --sunken:#ece8df;
+  --ink:#2b2a23;
+  --ink-2:#5b5648;
+  --muted:#8d8676;
+  --olive:#5f6b39;
+  --olive-d:#49521f;
+  --olive-soft:#eceedd;
+  --oak:#c39a5f;
+  --forest:#3f6b4a;
+  --line:rgba(67,57,36,.13);
+  --line-2:rgba(67,57,36,.2);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Manrope","Helvetica Neue",Helvetica,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(.32,.08,.24,1);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{background:var(--backdrop);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  padding:30px;min-height:100vh;background-image:radial-gradient(120% 90% at 50% 0,rgba(255,255,255,.4),transparent 60%);}
+button{font-family:var(--sans);cursor:pointer;}
+::selection{background:var(--olive);color:#fff;}
+
+/* floating site card */
+.site{max-width:1180px;margin:0 auto;position:relative;background:rgba(243,239,231,.9);
+  border:1px solid var(--line-2);box-shadow:0 50px 110px -56px rgba(40,34,18,.62), inset 0 1px 0 rgba(255,255,255,.55);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+
+/* ribbon */
+.promo{text-align:center;font-size:9.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--muted);padding:11px;border-bottom:1px solid var(--line);background:none;}
+
+/* header */
+.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:19px 30px;
+  border-bottom:1px solid var(--line);position:static;background:none;box-shadow:none;height:auto;}
+.brand{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink);white-space:nowrap;display:flex;align-items:center;}
+.brand__mark{display:none;}
+.brand__name{font-family:var(--serif);font-weight:500;font-size:23px;letter-spacing:.22em;text-transform:uppercase;line-height:1;}
+.brand__name small{display:none;}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
+  text-decoration:none;transition:color .15s;}
+.nav a:hover,.nav a.active{color:var(--olive);}
+.cart{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line-2);
+  border-radius:0;padding:11px 17px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink);box-shadow:none;transition:border-color .15s,color .15s;}
+.cart:hover{border-color:var(--olive);color:var(--olive);}
+.cart__count{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;border-radius:99px;
+  background:var(--olive);color:#fff;font-size:10px;font-weight:700;}
+
+/* intro */
+.intro{padding:34px 38px 6px;max-width:none;margin:0;}
+.crumbs{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+.crumbs span{color:var(--olive);}
+.intro h1{font-family:var(--serif);font-weight:400;font-size:46px;letter-spacing:.005em;margin:12px 0 8px;line-height:1.02;}
+.intro p{margin:0;font-size:14.5px;line-height:1.66;color:var(--ink-2);max-width:64ch;}
+
+/* layout */
+.wrap{padding:24px 38px 48px;display:grid;grid-template-columns:1fr 400px;gap:44px;align-items:start;max-width:none;margin:0;}
+.stage{position:sticky;top:30px;}
+
+/* framed live preview (white mat, matches landing hero) */
+.viewer{position:relative;height:calc(100vh - 60px);min-height:560px;max-height:900px;border:1px solid var(--line-2);background:var(--mat);padding:0;overflow:visible;border-radius:0;
+  box-shadow:inset 0 0 0 12px var(--mat), inset 0 0 0 13px rgba(67,57,36,.16), 0 18px 40px -26px rgba(40,34,18,.5);}
+.viewer__tag{position:absolute;top:24px;left:26px;z-index:3;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.viewer__price{position:absolute;top:21px;right:26px;z-index:3;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
+.viewer__price b{font-family:var(--serif);font-size:21px;font-weight:500;color:var(--ink);margin-right:5px;}
+.scene{position:absolute;inset:13px;display:flex;align-items:center;justify-content:center;padding:0 0 26px;overflow:hidden;
+  background:linear-gradient(180deg,#efeae0 0%,#e7e0d2 100%);}
+.scene__floor{display:none;}
+.scene__shadow{display:none;}
+.desk{position:relative;transition:width .42s var(--ease);transform:scale(1.12);transform-origin:center center;
+  filter:drop-shadow(0 26px 20px rgba(40,34,18,.22));}
+.top{position:relative;transition:width .42s var(--ease);}
+.top__surface{height:24px;transform:perspective(900px) rotateX(34deg);transform-origin:bottom center;
+  transition:width .42s var(--ease),height .42s var(--ease);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(67,57,36,.2);}
+.top__edge{height:20px;position:relative;overflow:hidden;box-shadow:0 14px 24px -12px rgba(67,57,36,.5),inset 0 -1px 2px rgba(0,0,0,.15);}
+.top__edge.is-plywood::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,rgba(255,255,255,.18) 1px 4px);opacity:.6;}
+.top.is-curve .top__surface{border-radius:10px 10px 4px 4px;}
+.top.is-curve .top__edge{border-radius:0 0 13px 13px;}
+.frame{position:relative;margin:0 auto;transition:width .42s var(--ease);}
+.frame__beam{height:11px;border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 4px rgba(67,57,36,.22);}
+.frame__legs{display:flex;justify-content:space-between;padding:0 13%;}
+.leg{display:flex;flex-direction:column;align-items:center;}
+.leg__upper{width:21px;height:78px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.2),inset -1px 0 0 rgba(0,0,0,.12);}
+.leg__lower{width:29px;height:74px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(0,0,0,.14);}
+.leg__foot{width:88px;height:9px;border-radius:3px;margin-top:2px;box-shadow:0 6px 10px -5px rgba(67,57,36,.5);}
+.motor{position:absolute;top:-3px;height:15px;border-radius:3px;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(67,57,36,.16));box-shadow:0 1px 2px rgba(67,57,36,.2);}
+.motor__dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--oak);top:5px;}
+.scene__dims{position:absolute;bottom:14px;left:0;right:0;z-index:3;text-align:center;transform:none;
+  font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--muted);}
+.scene__dims b{color:var(--ink);}
+
+/* panel */
+.section{padding:0 0 24px;margin:0 0 24px;border-bottom:1px solid var(--line);}
+.section + .section{border-top:none;}
+.section:last-of-type{border-bottom:none;}
+.section__title{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:400;font-size:27px;letter-spacing:.01em;margin:0 0 4px;}
+.section__title .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:0;background:var(--olive);
+  color:#f4efe6;font-family:var(--sans);font-size:12px;font-weight:700;}
+.section__note{margin:0 0 18px;font-size:12.5px;line-height:1.55;color:var(--muted);}
+
+.group{margin:0 0 18px;}
+.group:last-child{margin-bottom:0;}
+.group__head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px;}
+.group__label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);}
+.group__val{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);}
+
+.opts{display:grid;gap:8px;}
+.opts--2{grid-template-columns:1fr 1fr;}
+.opts--3{grid-template-columns:repeat(3,1fr);}
+.opt{position:relative;text-align:left;background:var(--surface-2);border:1px solid transparent;border-radius:4px;
+  padding:13px 15px;color:var(--ink);box-shadow:0 1px 2px rgba(67,57,36,.06),0 3px 8px -4px rgba(67,57,36,.13);
+  transition:box-shadow .18s var(--ease),transform .14s var(--ease),background .18s;display:flex;flex-direction:column;gap:3px;}
+.opt:hover{box-shadow:0 4px 10px -3px rgba(67,57,36,.16),0 12px 22px -10px rgba(67,57,36,.2);transform:translateY(-2px);}
+.opt.on{background:var(--olive-soft);transform:translateY(-3px);
+  box-shadow:0 6px 14px -4px rgba(95,107,57,.4),0 18px 32px -12px rgba(95,107,57,.42);}
+.opt__check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:99px;background:var(--olive);
+  display:none;place-items:center;color:#fff;}
+.opt.on .opt__check{display:grid;}
+.opt__name{font-size:15px;font-weight:700;letter-spacing:-.005em;padding-right:20px;}
+.opt__meta{font-size:11.5px;line-height:1.4;color:var(--muted);font-weight:500;}
+.opt__price{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--olive);margin-top:2px;}
+.opt__price.zero{color:var(--muted);font-weight:600;}
+.opt--swatch{flex-direction:row;align-items:center;gap:12px;padding:11px 14px;}
+.swatch{width:30px;height:30px;border-radius:0;flex:none;box-shadow:inset 0 0 0 1px rgba(67,57,36,.18);}
+.opt--swatch .col{display:flex;flex-direction:column;gap:1px;}
+.opt--pill{align-items:center;text-align:center;padding:13px 6px;gap:2px;}
+.opt--pill .opt__name{padding-right:0;font-size:16px;}
+.opt--pill .unit{font-size:11px;color:var(--muted);font-weight:600;}
+.soon{display:inline-block;margin-left:6px;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#7a5a1c;background:#f1e7cf;border-radius:0;padding:2px 5px;vertical-align:middle;}
+
+/* summary */
+.summary{margin-top:0;border:1px solid var(--line-2);border-radius:0;background:var(--surface);padding:24px;box-shadow:none;}
+.summary__h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+.summary__h h3{margin:0;font-family:var(--serif);font-weight:500;font-size:23px;}
+.summary__h span{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.bill{display:flex;flex-direction:column;gap:8px;}
+.bill__r{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:13px;}
+.bill__r dt{color:var(--ink-2);font-weight:500;}
+.bill__r dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;}
+.bill__r dd.zero{color:var(--muted);font-weight:600;}
+.bill__rule{height:0;border:0;border-top:1px solid var(--line);margin:14px 0;}
+.bill__t{display:flex;align-items:baseline;justify-content:space-between;}
+.bill__t dt{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.bill__t dd{margin:0;font-family:var(--serif);font-weight:500;font-size:35px;letter-spacing:.01em;}
+.bill__t dd small{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-left:6px;}
+
+.btns{margin-top:18px;display:flex;flex-direction:column;gap:9px;}
+.btn{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;
+  border-radius:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:15px;
+  transition:background .15s,border-color .15s,color .15s,transform .1s;}
+.btn--primary{background:var(--olive);color:#f4efe6;border-color:var(--olive);}
+.btn--primary:hover{background:var(--olive-d);border-color:var(--olive-d);}
+.btn--primary:active{transform:translateY(1px);}
+.btn--ghost{background:none;color:var(--ink);border-color:var(--line-2);}
+.btn--ghost:hover{border-color:var(--olive);color:var(--olive);}
+.btn--ghost.added{color:var(--forest);border-color:var(--forest);}
+.fine{margin:14px 0 0;text-align:center;font-size:11px;line-height:1.5;color:var(--muted);}
+.assure{margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.assure span{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);display:inline-flex;align-items:center;gap:5px;}
+.assure svg{color:var(--olive);}
+
+/* toast */
+.toast{position:fixed;right:24px;bottom:24px;z-index:120;background:var(--ink);color:#f3f1e6;border-radius:0;
+  padding:15px 19px;max-width:330px;box-shadow:0 24px 50px -20px rgba(40,34,18,.6);transform:translateY(18px);opacity:0;pointer-events:none;
+  transition:transform .3s var(--ease),opacity .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast__t{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
+.toast__b{margin-top:5px;font-size:12.5px;color:rgba(243,241,230,.75);line-height:1.5;}
+
+/* footer */
+.foot{background:none;box-shadow:none;border-top:1px solid var(--line);}
+.foot__in{padding:22px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:none;margin:0;}
+.foot__b{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:.22em;text-transform:uppercase;}
+.foot__b .brand__mark{display:none;}
+.foot__c{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+/* checkout */
+.co{position:fixed;inset:0;z-index:200;display:none;}
+.co.show{display:block;}
+.co__scrim{position:absolute;inset:0;background:rgba(43,42,35,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fade .25s ease both;}
+.co__sheet{position:absolute;top:0;right:0;height:100%;width:min(940px,100%);display:grid;grid-template-columns:1fr 1fr;
+  background:var(--paper);box-shadow:-30px 0 80px -30px rgba(40,34,18,.5);animation:slide .36s var(--ease) both;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+@keyframes slide{from{transform:translateX(40px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.co__close{position:absolute;top:18px;right:20px;z-index:2;width:36px;height:36px;border:1px solid var(--line-2);border-radius:50%;
+  background:var(--surface);display:grid;place-items:center;color:var(--ink-2);transition:border-color .15s,color .15s;}
+.co__close:hover{border-color:var(--olive);color:var(--olive);}
+.co__left{background:var(--olive);color:#eef0de;padding:48px 44px;display:flex;flex-direction:column;}
+.co__merchant{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:500;font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:#fbf9f0;}
+.co__merchant .brand__mark{display:none;}
+.co__amount-lbl{margin-top:38px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(238,240,222,.8);}
+.co__amount{margin-top:8px;font-family:var(--serif);font-weight:500;font-size:46px;letter-spacing:.01em;color:#fbf9f0;}
+.co__amount small{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(238,240,222,.7);margin-left:8px;}
+.co__lines{margin-top:30px;display:flex;flex-direction:column;gap:0;}
+.co__line{display:flex;justify-content:space-between;gap:14px;padding:14px 0;font-size:13px;border-bottom:1px solid rgba(238,240,222,.18);}
+.co__line:first-child{border-top:1px solid rgba(238,240,222,.18);}
+.co__line dt{color:rgba(238,240,222,.92);font-weight:600;}
+.co__line dt small{display:block;color:rgba(238,240,222,.6);font-weight:500;font-size:11.5px;margin-top:3px;letter-spacing:.02em;}
+.co__line dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;}
+.co__total{margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fbf9f0;}
+.co__right{padding:48px 44px;overflow-y:auto;background:var(--paper);}
+.co__rh{font-family:var(--serif);font-weight:500;font-size:25px;color:var(--ink);margin:0 0 4px;}
+.co__rsub{font-size:12.5px;color:var(--muted);margin:0 0 24px;}
+.field{margin-bottom:14px;}
+.field__l{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:7px;}
+.inp{width:100%;border:1px solid var(--line-2);border-radius:0;background:var(--surface);padding:13px 14px;font-size:14px;font-family:var(--sans);color:var(--ink);transition:border-color .15s;}
+.inp::placeholder{color:#a9a395;}
+.inp:focus{outline:none;border-color:var(--olive);}
+.card-grp{border:1px solid var(--line-2);border-radius:0;background:var(--surface);overflow:hidden;}
+.card-grp .inp{border:none;border-radius:0;}
+.card-row{display:flex;border-top:1px solid var(--line-2);}
+.card-row .inp{flex:1;}
+.card-row .inp:first-child{border-right:1px solid var(--line-2);}
+.card-num{position:relative;}
+.card-brand{position:absolute;right:13px;top:50%;transform:translateY(-50%);display:flex;gap:5px;}
+.card-brand i{width:26px;height:17px;border-radius:3px;display:block;opacity:.4;transition:opacity .2s;box-shadow:0 1px 2px rgba(0,0,0,.15);}
+.card-brand i.lit{opacity:1;}
+.cb-visa{background:linear-gradient(135deg,#1a1f71,#2434a8);}
+.cb-mc{background:linear-gradient(135deg,#eb001b,#f79e1b);}
+.cb-amex{background:linear-gradient(135deg,#2e77bb,#6cb5e4);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pay{margin-top:22px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--olive);border-radius:0;
+  background:var(--olive);color:#f4efe6;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:16px;transition:background .15s,border-color .15s,transform .1s;}
+.pay:hover{background:var(--olive-d);border-color:var(--olive-d);}
+.pay:active{transform:translateY(1px);}
+.pay:disabled{opacity:.55;cursor:default;}
+.pay__spin{width:16px;height:16px;border-radius:99px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.co__secure{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em;}
+.co__powered{margin-top:18px;text-align:center;font-size:11px;color:var(--muted);letter-spacing:.06em;}
+.co__powered b{color:var(--ink-2);font-weight:700;}
+.co__terms{margin-top:8px;text-align:center;font-size:10.5px;color:#a9a395;line-height:1.5;}
+.co__done{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;background:var(--paper);}
+.co__done-ic{width:74px;height:74px;border-radius:99px;background:var(--olive);color:#f4efe6;display:grid;place-items:center;animation:pop .4s var(--ease) both;}
+@keyframes pop{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+.co__done h2{margin:22px 0 6px;font-family:var(--serif);font-weight:500;font-size:32px;letter-spacing:.01em;}
+.co__done p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:40ch;line-height:1.65;}
+.co__done .pay{max-width:240px;margin-top:28px;}
+
+@media(max-width:980px){
+  .wrap{grid-template-columns:1fr;gap:32px;}
+  .stage{position:static;}
+  .co__sheet{grid-template-columns:1fr;overflow-y:auto;}
+}
+@media(max-width:600px){
+  body{padding:12px;}
+  .hd{padding:16px 18px;}.nav{display:none;}
+  .intro,.wrap,.foot__in{padding-left:18px;padding-right:18px;}
+  .intro h1{font-size:34px;}
+  .co__left,.co__right{padding:34px 24px;}
+}
+@media(prefers-reduced-motion:no-preference){
+  .section{animation:rise .5s var(--ease) both;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+}
+  </style>
+  <script>
+// @ds-adherence-ignore -- omelette starter scaffold (raw elements/hex/px by design)
+/* BEGIN USAGE */
+/**
+ * <image-slot> — user-fillable image placeholder.
+ *
+ * Drop this into a deck, mockup, or page wherever you want the user to
+ * supply an image. You control the slot's shape and size; the user fills it
+ * by dragging an image file onto it (or clicking to browse). The dropped
+ * image persists across reloads via a .image-slots.state.json sidecar —
+ * same read-via-fetch / write-via-window.omelette pattern as
+ * design_canvas.jsx, so the filled slot shows on share links, downloaded
+ * zips, and PPTX export. Outside the omelette runtime the slot is read-only.
+ *
+ * The host bridge only allows sidecar writes at the project root, so the
+ * HTML that uses this component is assumed to live at the project root too
+ * (same constraint as design_canvas.jsx).
+ *
+ * Attributes:
+ *   id           Persistence key. REQUIRED for the drop to survive reload —
+ *                every slot on the page needs a distinct id.
+ *   shape        'rect' | 'rounded' | 'circle' | 'pill'   (default 'rounded')
+ *                'circle' applies 50% border-radius; on a non-square slot
+ *                that's an ellipse — set equal width and height for a true
+ *                circle.
+ *   radius       Corner radius in px for 'rounded'.       (default 12)
+ *   mask         Any CSS clip-path value. Overrides `shape` — use this for
+ *                hexagons, blobs, arbitrary polygons.
+ *   fit          object-fit: cover | contain | fill.       (default 'cover')
+ *                With cover (the default) double-clicking the filled slot
+ *                enters a reframe mode: the whole image spills past the mask
+ *                (translucent outside, opaque inside), drag to reposition,
+ *                corner-drag to scale. The crop persists alongside the image
+ *                in the sidecar. contain/fill stay static.
+ *   position     object-position for fit=contain|fill.     (default '50% 50%')
+ *   placeholder  Empty-state caption.                      (default 'Drop an image')
+ *   src          Optional initial/fallback image URL. A user drop overrides
+ *                it; clearing the drop reveals src again.
+ *
+ * Size and layout come from ordinary CSS on the element — width/height
+ * inline or from a parent grid — so it composes with any layout.
+ *
+ * Usage:
+ *   <image-slot id="hero"   style="width:800px;height:450px" shape="rounded" radius="20"
+ *               placeholder="Drop a hero image"></image-slot>
+ *   <image-slot id="avatar" style="width:120px;height:120px" shape="circle"></image-slot>
+ *   <image-slot id="kite"   style="width:300px;height:300px"
+ *               mask="polygon(50% 0, 100% 50%, 50% 100%, 0 50%)"></image-slot>
+ */
+/* END USAGE */
+
+(() => {
+  const STATE_FILE = '.image-slots.state.json';
+  // 2× a ~600px slot in a 1920-wide deck — retina-sharp without making the
+  // sidecar enormous. A 1200px WebP at q=0.85 is ~150-300KB.
+  const MAX_DIM = 1200;
+  // Raster formats only. SVG is excluded (can carry script; createImageBitmap
+  // on SVG blobs is inconsistent). GIF is excluded because the canvas
+  // re-encode keeps only the first frame, so an animated GIF would silently
+  // go still — better to reject than surprise.
+  const ACCEPT = ['image/png', 'image/jpeg', 'image/webp', 'image/avif'];
+
+  // ── Shared sidecar store ────────────────────────────────────────────────
+  // One fetch + immediate write-on-change for every <image-slot> on the
+  // page. Reads via fetch() so viewing works anywhere the HTML and sidecar
+  // are served together; writes go through window.omelette.writeFile, which
+  // the host allowlists to *.state.json basenames only.
+  const subs = new Set();
+  let slots = {};
+  // ids explicitly cleared before the sidecar fetch resolved — otherwise
+  // the merge below can't tell "never set" from "just deleted" and would
+  // resurrect the sidecar's stale value.
+  const tombstones = new Set();
+  let loaded = false;
+  let loadP = null;
+
+  function load() {
+    if (loadP) return loadP;
+    loadP = fetch(STATE_FILE)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        // Merge: sidecar loses to any in-memory change that raced ahead of
+        // the fetch (drop or clear) so neither is clobbered by hydration.
+        if (j && typeof j === 'object') {
+          const merged = Object.assign({}, j, slots);
+          // A framing-only write that raced ahead of hydration must not
+          // drop a user image that's only on disk — inherit u from the
+          // sidecar for any in-memory entry that lacks one.
+          for (const k in slots) {
+            if (merged[k] && !merged[k].u && j[k]) {
+              merged[k].u = typeof j[k] === 'string' ? j[k] : j[k].u;
+            }
+          }
+          for (const id of tombstones) delete merged[id];
+          slots = merged;
+        }
+        tombstones.clear();
+      })
+      .catch(() => {})
+      .then(() => { loaded = true; subs.forEach((fn) => fn()); });
+    return loadP;
+  }
+
+  // Serialize writes so two near-simultaneous drops on different slots
+  // can't reorder at the backend and leave the sidecar with only the
+  // first. A save requested mid-flight just marks dirty and re-fires on
+  // completion with the then-current slots.
+  let saving = false;
+  let saveDirty = false;
+  function save() {
+    if (saving) { saveDirty = true; return; }
+    const w = window.omelette && window.omelette.writeFile;
+    if (!w) return;
+    saving = true;
+    Promise.resolve(w(STATE_FILE, JSON.stringify(slots)))
+      .catch(() => {})
+      .then(() => { saving = false; if (saveDirty) { saveDirty = false; save(); } });
+  }
+
+  const S_MAX = 5;
+  const clampS = (s) => Math.max(1, Math.min(S_MAX, s));
+
+  // Normalize a stored slot value. Pre-reframe sidecars stored a bare
+  // data-URL string; newer ones store {u, s, x, y}. Either shape is valid.
+  function getSlot(id) {
+    const v = slots[id];
+    if (!v) return null;
+    return typeof v === 'string' ? { u: v, s: 1, x: 0, y: 0 } : v;
+  }
+
+  function setSlot(id, val) {
+    if (!id) return;
+    if (val) { slots[id] = val; tombstones.delete(id); }
+    else { delete slots[id]; if (!loaded) tombstones.add(id); }
+    subs.forEach((fn) => fn());
+    // A drop is rare + high-value — write immediately so nav-away can't lose
+    // it. Gate on the initial read so we don't overwrite a sidecar we haven't
+    // merged yet; the merge in load() keeps this change once the read lands.
+    if (loaded) save(); else load().then(save);
+  }
+
+  // ── Image downscale ─────────────────────────────────────────────────────
+  // Encode through a canvas so the sidecar carries resized bytes, not the
+  // raw upload. Longest side is capped at 2× the slot's rendered width
+  // (retina) and at MAX_DIM. WebP keeps alpha and is ~10× smaller than PNG
+  // for photos, so there's no need for per-image format picking.
+  async function toDataUrl(file, targetW) {
+    const bitmap = await createImageBitmap(file);
+    try {
+      const cap = Math.min(MAX_DIM, Math.max(1, Math.round(targetW * 2)) || MAX_DIM);
+      const scale = Math.min(1, cap / Math.max(bitmap.width, bitmap.height));
+      const w = Math.max(1, Math.round(bitmap.width * scale));
+      const h = Math.max(1, Math.round(bitmap.height * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, w, h);
+      return canvas.toDataURL('image/webp', 0.85);
+    } finally {
+      bitmap.close && bitmap.close();
+    }
+  }
+
+  // ── Custom element ──────────────────────────────────────────────────────
+  const stylesheet =
+    ':host{display:inline-block;position:relative;vertical-align:top;' +
+    '  font:13px/1.3 system-ui,-apple-system,sans-serif;color:rgba(0,0,0,.55);width:240px;height:160px}' +
+    '.frame{position:absolute;inset:0;overflow:hidden;background:rgba(0,0,0,.04)}' +
+    // .frame img (clipped) and .spill (unclipped ghost + handles) share the
+    // same left/top/width/height in frame-%, computed by _applyView(), so the
+    // inside-mask crop and the outside-mask spill stay pixel-aligned.
+    '.frame img{position:absolute;max-width:none;transform:translate(-50%,-50%);' +
+    '  -webkit-user-drag:none;user-select:none;touch-action:none}' +
+    // Reframe mode (double-click): the full image spills past the mask. The
+    // spill layer is sized to the IMAGE bounds so its corners are where the
+    // resize handles belong. The ghost <img> inside is translucent; the real
+    // clipped <img> underneath shows the opaque in-mask crop.
+    '.spill{position:absolute;transform:translate(-50%,-50%);display:none;z-index:1;' +
+    '  cursor:grab;touch-action:none}' +
+    ':host([data-panning]) .spill{cursor:grabbing}' +
+    '.spill .ghost{position:absolute;inset:0;width:100%;height:100%;opacity:.35;' +
+    '  pointer-events:none;-webkit-user-drag:none;user-select:none;' +
+    '  box-shadow:0 0 0 1px rgba(0,0,0,.2),0 12px 32px rgba(0,0,0,.2)}' +
+    '.spill .handle{position:absolute;width:12px;height:12px;border-radius:50%;' +
+    '  background:#fff;box-shadow:0 0 0 1.5px #c96442,0 1px 3px rgba(0,0,0,.3);' +
+    '  transform:translate(-50%,-50%)}' +
+    '.spill .handle[data-c=nw]{left:0;top:0;cursor:nwse-resize}' +
+    '.spill .handle[data-c=ne]{left:100%;top:0;cursor:nesw-resize}' +
+    '.spill .handle[data-c=sw]{left:0;top:100%;cursor:nesw-resize}' +
+    '.spill .handle[data-c=se]{left:100%;top:100%;cursor:nwse-resize}' +
+    ':host([data-reframe]){z-index:10}' +
+    ':host([data-reframe]) .spill{display:block}' +
+    ':host([data-reframe]) .frame{box-shadow:0 0 0 2px #c96442}' +
+    '.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;' +
+    '  justify-content:center;gap:6px;text-align:center;padding:12px;box-sizing:border-box;' +
+    '  cursor:pointer;user-select:none}' +
+    '.empty svg{opacity:.45}' +
+    '.empty .cap{max-width:90%;font-weight:500;letter-spacing:.01em}' +
+    '.empty .sub{font-size:11px}' +
+    '.empty .sub u{text-underline-offset:2px;text-decoration-color:rgba(0,0,0,.25)}' +
+    '.empty:hover .sub u{color:rgba(0,0,0,.75);text-decoration-color:currentColor}' +
+    ':host([data-over]) .frame{outline:2px solid #c96442;outline-offset:-2px;' +
+    '  background:rgba(201,100,66,.10)}' +
+    '.ring{position:absolute;inset:0;pointer-events:none;border:1.5px dashed rgba(0,0,0,.25);' +
+    '  transition:border-color .12s}' +
+    ':host([data-over]) .ring{border-color:#c96442}' +
+    ':host([data-filled]) .ring{display:none}' +
+    // Controls sit BELOW the mask (top:100%), absolutely positioned so the
+    // author-declared slot height is unaffected. The gap is padding, not a
+    // top offset, so the hover target stays contiguous with the frame.
+    '.ctl{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:8px;' +
+    '  display:flex;gap:6px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:2;' +
+    '  white-space:nowrap}' +
+    ':host([data-filled][data-editable]:hover) .ctl,:host([data-reframe]) .ctl' +
+    '  {opacity:1;pointer-events:auto}' +
+    '.ctl button{appearance:none;border:0;border-radius:6px;padding:5px 10px;cursor:pointer;' +
+    '  background:rgba(0,0,0,.65);color:#fff;font:11px/1 system-ui,-apple-system,sans-serif;' +
+    '  backdrop-filter:blur(6px)}' +
+    '.ctl button:hover{background:rgba(0,0,0,.8)}' +
+    '.err{position:absolute;left:8px;bottom:8px;right:8px;color:#b3261e;font-size:11px;' +
+    '  background:rgba(255,255,255,.85);padding:4px 6px;border-radius:5px;pointer-events:none}';
+
+  const icon =
+    '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+    '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>' +
+    '<path d="m21 15-5-5L5 21"/></svg>';
+
+  class ImageSlot extends HTMLElement {
+    static get observedAttributes() {
+      return ['shape', 'radius', 'mask', 'fit', 'position', 'placeholder', 'src', 'id'];
+    }
+
+    constructor() {
+      super();
+      const root = this.attachShadow({ mode: 'open' });
+      // .spill and .ctl sit OUTSIDE .frame so overflow:hidden + border-radius
+      // on the frame (circle, pill, rounded) can't clip them.
+      root.innerHTML =
+        '<style>' + stylesheet + '</style>' +
+        '<div class="frame" part="frame">' +
+        '  <img part="image" alt="" draggable="false" style="display:none">' +
+        '  <div class="empty" part="empty">' + icon +
+        '    <div class="cap"></div>' +
+        '    <div class="sub">or <u>browse files</u></div></div>' +
+        '  <div class="ring" part="ring"></div>' +
+        '</div>' +
+        '<div class="spill">' +
+        '  <img class="ghost" alt="" draggable="false">' +
+        '  <div class="handle" data-c="nw"></div><div class="handle" data-c="ne"></div>' +
+        '  <div class="handle" data-c="sw"></div><div class="handle" data-c="se"></div>' +
+        '</div>' +
+        '<div class="ctl"><button data-act="replace" title="Replace image">Replace</button>' +
+        '  <button data-act="clear" title="Remove image">Remove</button></div>' +
+        '<input type="file" accept="' + ACCEPT.join(',') + '" hidden>';
+      this._frame = root.querySelector('.frame');
+      this._ring = root.querySelector('.ring');
+      this._img = root.querySelector('.frame img');
+      this._empty = root.querySelector('.empty');
+      this._cap = root.querySelector('.cap');
+      this._sub = root.querySelector('.sub');
+      this._spill = root.querySelector('.spill');
+      this._ghost = root.querySelector('.ghost');
+      this._err = null;
+      this._input = root.querySelector('input');
+      this._depth = 0;
+      this._gen = 0;
+      this._view = { s: 1, x: 0, y: 0 };
+      this._subFn = () => this._render();
+      // Shadow-DOM listeners live with the shadow DOM — bound once here so
+      // disconnect/reconnect (e.g. React remount) doesn't stack handlers.
+      this._empty.addEventListener('click', () => this._input.click());
+      root.addEventListener('click', (e) => {
+        const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+        if (act === 'replace') { this._exitReframe(true); this._input.click(); }
+        if (act === 'clear') {
+          this._exitReframe(false);
+          this._gen++;
+          this._local = null;
+          if (this.id) setSlot(this.id, null); else this._render();
+        }
+      });
+      this._input.addEventListener('change', () => {
+        const f = this._input.files && this._input.files[0];
+        if (f) this._ingest(f);
+        this._input.value = '';
+      });
+      // naturalWidth/Height aren't known until load — re-apply so the cover
+      // baseline is computed from real dimensions, not the 100%×100% fallback.
+      this._img.addEventListener('load', () => this._applyView());
+      // Gated on editable + fit=cover so share links and contain/fill slots
+      // stay static.
+      this.addEventListener('dblclick', (e) => {
+        if (!this.hasAttribute('data-editable') || !this._reframes()) return;
+        e.preventDefault();
+        if (this.hasAttribute('data-reframe')) this._exitReframe(true);
+        else this._enterReframe();
+      });
+      // Pan + resize both originate on the spill layer. A handle pointerdown
+      // drives an aspect-locked resize anchored at the opposite corner; any
+      // other pointerdown on the spill pans. Offsets are frame-% so a
+      // reframed slot survives responsive resize / PPTX export.
+      this._spill.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 || !this.hasAttribute('data-reframe')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        this._spill.setPointerCapture(e.pointerId);
+        const rect = this.getBoundingClientRect();
+        const fw = rect.width || 1, fh = rect.height || 1;
+        const corner = e.target.getAttribute && e.target.getAttribute('data-c');
+        let move;
+        if (corner) {
+          // Resize about the OPPOSITE corner. Viewport-px throughout (rect
+          // fw/fh, not clientWidth) so the math survives a transform:scale()
+          // ancestor — deck_stage renders slides scaled-to-fit.
+          const iw = this._img.naturalWidth || 1, ih = this._img.naturalHeight || 1;
+          const base = Math.max(fw / iw, fh / ih);
+          const sx = corner.includes('e') ? 1 : -1;
+          const sy = corner.includes('s') ? 1 : -1;
+          const s0 = this._view.s;
+          const w0 = iw * base * s0, h0 = ih * base * s0;
+          const cx0 = (50 + this._view.x) / 100 * fw;
+          const cy0 = (50 + this._view.y) / 100 * fh;
+          const ox = cx0 - sx * w0 / 2, oy = cy0 - sy * h0 / 2;
+          const diag0 = Math.hypot(w0, h0);
+          const ux = sx * w0 / diag0, uy = sy * h0 / diag0;
+          move = (ev) => {
+            const proj = (ev.clientX - rect.left - ox) * ux +
+                         (ev.clientY - rect.top - oy) * uy;
+            const s = clampS(s0 * proj / diag0);
+            const d = diag0 * s / s0;
+            this._view.s = s;
+            this._view.x = (ox + ux * d / 2) / fw * 100 - 50;
+            this._view.y = (oy + uy * d / 2) / fh * 100 - 50;
+            this._clampView();
+            this._applyView();
+          };
+        } else {
+          this.setAttribute('data-panning', '');
+          const start = { px: e.clientX, py: e.clientY, x: this._view.x, y: this._view.y };
+          move = (ev) => {
+            this._view.x = start.x + (ev.clientX - start.px) / fw * 100;
+            this._view.y = start.y + (ev.clientY - start.py) / fh * 100;
+            this._clampView();
+            this._applyView();
+          };
+        }
+        const up = () => {
+          try { this._spill.releasePointerCapture(e.pointerId); } catch {}
+          this._spill.removeEventListener('pointermove', move);
+          this._spill.removeEventListener('pointerup', up);
+          this._spill.removeEventListener('pointercancel', up);
+          this.removeAttribute('data-panning');
+          this._dragUp = null;
+        };
+        // Stashed so _exitReframe (Escape / outside-click mid-drag) can
+        // tear the capture + listeners down synchronously.
+        this._dragUp = up;
+        this._spill.addEventListener('pointermove', move);
+        this._spill.addEventListener('pointerup', up);
+        this._spill.addEventListener('pointercancel', up);
+      });
+      // Wheel zoom stays available inside reframe mode as a trackpad nicety —
+      // zooms toward the cursor (offset' = cursor·(1-k) + offset·k).
+      this.addEventListener('wheel', (e) => {
+        if (!this.hasAttribute('data-reframe')) return;
+        e.preventDefault();
+        const r = this.getBoundingClientRect();
+        const cx = (e.clientX - r.left) / r.width * 100 - 50;
+        const cy = (e.clientY - r.top) / r.height * 100 - 50;
+        const prev = this._view.s;
+        const next = clampS(prev * Math.pow(1.0015, -e.deltaY));
+        if (next === prev) return;
+        const k = next / prev;
+        this._view.s = next;
+        this._view.x = cx * (1 - k) + this._view.x * k;
+        this._view.y = cy * (1 - k) + this._view.y * k;
+        this._clampView();
+        this._applyView();
+      }, { passive: false });
+    }
+
+    connectedCallback() {
+      // Warn once per page — an id-less slot works for the session but
+      // cannot persist, and two id-less slots would share nothing.
+      if (!this.id && !ImageSlot._warned) {
+        ImageSlot._warned = true;
+        console.warn('<image-slot> without an id will not persist its dropped image.');
+      }
+      this.addEventListener('dragenter', this);
+      this.addEventListener('dragover', this);
+      this.addEventListener('dragleave', this);
+      this.addEventListener('drop', this);
+      subs.add(this._subFn);
+      // width%/height% in _applyView encode the frame aspect at call time —
+      // a host resize (responsive grid, pane divider) would stretch the
+      // image until the next _render. Re-render on size change: _render()
+      // re-seeds _view from stored before clamp/apply, so a shrink→grow
+      // cycle round-trips instead of ratcheting x/y toward the narrower
+      // frame's clamp range.
+      this._ro = new ResizeObserver(() => this._render());
+      this._ro.observe(this);
+      load();
+      this._render();
+    }
+
+    disconnectedCallback() {
+      subs.delete(this._subFn);
+      this.removeEventListener('dragenter', this);
+      this.removeEventListener('dragover', this);
+      this.removeEventListener('dragleave', this);
+      this.removeEventListener('drop', this);
+      if (this._ro) { this._ro.disconnect(); this._ro = null; }
+      this._exitReframe(false);
+    }
+
+    _enterReframe() {
+      if (this.hasAttribute('data-reframe')) return;
+      this.setAttribute('data-reframe', '');
+      this._applyView();
+      // Close on click outside (the spill handler stopPropagation()s so
+      // in-image drags don't reach this) and on Escape. Listeners are held
+      // on the instance so _exitReframe / disconnectedCallback can detach
+      // exactly what was attached.
+      this._outside = (e) => {
+        if (e.composedPath && e.composedPath().includes(this)) return;
+        this._exitReframe(true);
+      };
+      this._esc = (e) => { if (e.key === 'Escape') this._exitReframe(true); };
+      document.addEventListener('pointerdown', this._outside, true);
+      document.addEventListener('keydown', this._esc, true);
+    }
+
+    _exitReframe(commit) {
+      if (!this.hasAttribute('data-reframe')) return;
+      if (this._dragUp) this._dragUp();
+      this.removeAttribute('data-reframe');
+      this.removeAttribute('data-panning');
+      if (this._outside) document.removeEventListener('pointerdown', this._outside, true);
+      if (this._esc) document.removeEventListener('keydown', this._esc, true);
+      this._outside = this._esc = null;
+      if (commit) this._commitView();
+    }
+
+    attributeChangedCallback() { if (this.shadowRoot) this._render(); }
+
+    // handleEvent — one listener object for all four drag events keeps the
+    // add/remove symmetric and the depth counter correct.
+    handleEvent(e) {
+      if (e.type === 'dragenter' || e.type === 'dragover') {
+        // Without preventDefault the browser never fires 'drop'.
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+        if (e.type === 'dragenter') this._depth++;
+        this.setAttribute('data-over', '');
+      } else if (e.type === 'dragleave') {
+        // dragenter/leave fire for every descendant crossing — count depth
+        // so hovering the icon inside the empty state doesn't flicker.
+        if (--this._depth <= 0) { this._depth = 0; this.removeAttribute('data-over'); }
+      } else if (e.type === 'drop') {
+        e.preventDefault();
+        e.stopPropagation();
+        this._depth = 0;
+        this.removeAttribute('data-over');
+        const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f) this._ingest(f);
+      }
+    }
+
+    async _ingest(file) {
+      this._setError(null);
+      if (!file || ACCEPT.indexOf(file.type) < 0) {
+        this._setError('Drop a PNG, JPEG, WebP, or AVIF image.');
+        return;
+      }
+      // toDataUrl can take hundreds of ms on a large photo. A Clear or a
+      // newer drop during that window would be clobbered when this await
+      // resumes — bump + capture a generation so stale encodes bail.
+      const gen = ++this._gen;
+      try {
+        const w = this.clientWidth || this.offsetWidth || MAX_DIM;
+        const url = await toDataUrl(file, w);
+        if (gen !== this._gen) return;
+        // Only exit reframe once the new image is in hand — a rejected type
+        // or decode failure leaves the in-progress crop untouched.
+        this._exitReframe(false);
+        const val = { u: url, s: 1, x: 0, y: 0 };
+        setSlot(this.id || '', val);
+        // Keep a session-local copy for id-less slots so the drop still
+        // shows, even though it cannot persist.
+        if (!this.id) { this._local = val; this._render(); }
+      } catch (err) {
+        if (gen !== this._gen) return;
+        this._setError('Could not read that image.');
+        console.warn('<image-slot> ingest failed:', err);
+      }
+    }
+
+    _setError(msg) {
+      if (this._err) { this._err.remove(); this._err = null; }
+      if (!msg) return;
+      const d = document.createElement('div');
+      d.className = 'err'; d.textContent = msg;
+      this.shadowRoot.appendChild(d);
+      this._err = d;
+      setTimeout(() => { if (this._err === d) { d.remove(); this._err = null; } }, 3000);
+    }
+
+    // Reframing (pan/resize) is only meaningful for fit=cover — contain/fill
+    // keep the old object-fit path and double-click is a no-op.
+    _reframes() {
+      return this.hasAttribute('data-filled') &&
+        (this.getAttribute('fit') || 'cover') === 'cover';
+    }
+
+    // Cover-baseline geometry, shared by clamp/apply/resize. Null until the
+    // img has loaded (naturalWidth is 0 before that) or when the slot has no
+    // layout box — ResizeObserver fires with a 0×0 rect under display:none,
+    // and clamping against a degenerate 1×1 frame would silently pull the
+    // stored pan toward zero.
+    _geom() {
+      const iw = this._img.naturalWidth, ih = this._img.naturalHeight;
+      const fw = this.clientWidth, fh = this.clientHeight;
+      if (!iw || !ih || !fw || !fh) return null;
+      return { iw, ih, fw, fh, base: Math.max(fw / iw, fh / ih) };
+    }
+
+    _clampView() {
+      // Pan range on each axis is half the overflow past the frame edge.
+      const g = this._geom();
+      if (!g) return;
+      const mx = Math.max(0, (g.iw * g.base * this._view.s / g.fw - 1) * 50);
+      const my = Math.max(0, (g.ih * g.base * this._view.s / g.fh - 1) * 50);
+      this._view.x = Math.max(-mx, Math.min(mx, this._view.x));
+      this._view.y = Math.max(-my, Math.min(my, this._view.y));
+    }
+
+    _applyView() {
+      const g = this._geom();
+      const fit = this.getAttribute('fit') || 'cover';
+      if (fit !== 'cover' || !g) {
+        // Non-cover, or dimensions not known yet (before img load).
+        this._img.style.width = '100%';
+        this._img.style.height = '100%';
+        this._img.style.left = '50%';
+        this._img.style.top = '50%';
+        this._img.style.objectFit = fit;
+        this._img.style.objectPosition = this.getAttribute('position') || '50% 50%';
+        return;
+      }
+      // Cover baseline: img fills the frame on its tighter axis at s=1, so
+      // pan works immediately on the overflowing axis without zooming first.
+      // Width/height and left/top are all frame-% — depends only on the
+      // frame aspect ratio, so a responsive resize keeps the same crop. The
+      // spill layer mirrors the same box so its corners = image corners.
+      const k = g.base * this._view.s;
+      const w = (g.iw * k / g.fw * 100) + '%';
+      const h = (g.ih * k / g.fh * 100) + '%';
+      const l = (50 + this._view.x) + '%';
+      const t = (50 + this._view.y) + '%';
+      this._img.style.width = w; this._img.style.height = h;
+      this._img.style.left = l; this._img.style.top = t;
+      this._img.style.objectFit = '';
+      this._spill.style.width = w; this._spill.style.height = h;
+      this._spill.style.left = l; this._spill.style.top = t;
+    }
+
+    _commitView() {
+      const v = { s: this._view.s, x: this._view.x, y: this._view.y };
+      if (this._userUrl) v.u = this._userUrl;
+      // Framing-only (no u) persists too so an author-src slot remembers its
+      // crop; clearing the sidecar still falls through to src=.
+      if (this.id) setSlot(this.id, v);
+      else { this._local = v; }
+    }
+
+    _render() {
+      // Shape / mask. Presets use border-radius so the dashed ring can
+      // follow the rounded outline; clip-path is only applied for an
+      // explicit `mask` (the ring is hidden there since a rectangle
+      // dashed border chopped by an arbitrary polygon looks broken).
+      const mask = this.getAttribute('mask');
+      const shape = (this.getAttribute('shape') || 'rounded').toLowerCase();
+      let radius = '';
+      if (shape === 'circle') radius = '50%';
+      else if (shape === 'pill') radius = '9999px';
+      else if (shape === 'rounded') {
+        const n = parseFloat(this.getAttribute('radius'));
+        radius = (Number.isFinite(n) ? n : 12) + 'px';
+      }
+      this._frame.style.borderRadius = mask ? '' : radius;
+      this._frame.style.clipPath = mask || '';
+      this._ring.style.borderRadius = mask ? '' : radius;
+      this._ring.style.display = mask ? 'none' : '';
+
+      // Controls and reframe entry gate on this so share links stay read-only.
+      const editable = !!(window.omelette && window.omelette.writeFile);
+      this.toggleAttribute('data-editable', editable);
+      this._sub.style.display = editable ? '' : 'none';
+
+      // Content. The sidecar is also writable by the agent's write_file
+      // tool, so its value isn't guaranteed canvas-originated — only accept
+      // data:image/ URLs from it. The `src` attribute is author-controlled
+      // (Claude wrote it into the HTML) so it passes through unchanged.
+      let stored = this.id ? getSlot(this.id) : this._local;
+      if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
+      const srcAttr = this.getAttribute('src') || '';
+      this._userUrl = (stored && stored.u) || null;
+      const url = this._userUrl || srcAttr;
+      // Don't clobber an in-flight reframe with a store-triggered re-render.
+      if (!this.hasAttribute('data-reframe')) {
+        this._view = {
+          s: stored && Number.isFinite(stored.s) ? clampS(stored.s) : 1,
+          x: stored && Number.isFinite(stored.x) ? stored.x : 0,
+          y: stored && Number.isFinite(stored.y) ? stored.y : 0,
+        };
+      }
+      this._cap.textContent = this.getAttribute('placeholder') || 'Drop an image';
+      // Toggle via style.display — the [hidden] attribute alone loses to
+      // the display:flex / display:block rules in the stylesheet above.
+      if (url) {
+        if (this._img.getAttribute('src') !== url) {
+          this._img.src = url;
+          this._ghost.src = url;
+        }
+        this._img.style.display = 'block';
+        this._empty.style.display = 'none';
+        this.setAttribute('data-filled', '');
+        this._clampView();
+        this._applyView();
+      } else {
+        this._img.style.display = 'none';
+        this._img.removeAttribute('src');
+        this._ghost.removeAttribute('src');
+        this._empty.style.display = 'flex';
+        this.removeAttribute('data-filled');
+      }
+    }
+  }
+
+  if (!customElements.get('image-slot')) {
+    customElements.define('image-slot', ImageSlot);
+  }
+})();
+
+</script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+
+/* ── catalogue (from the SKU sheet) · prices in SGD ── */
+const FRAME_MOTOR = [
+  { id:"Single Motor", name:"Single Motor", meta:"One drive · 70kg lift · 25mm/s", base:399 },
+  { id:"Dual Motor",   name:"Dual Motor",   meta:"Twin drive · 125kg lift · 38mm/s", base:549 },
+];
+const FRAME_COLOUR = [
+  { id:"Black", name:"Black", swatch:"linear-gradient(180deg,#3a3a34,#19190f)", add:0 },
+  { id:"White", name:"White", swatch:"linear-gradient(180deg,#fbfaf4,#e3e1d6)", add:30 },
+];
+const TOP_MATERIAL = [
+  { id:"Plywood",   name:"Plywood",   meta:"Birch-core, veneered. Lighter, great value.", add:0 },
+  { id:"Real Wood", name:"Real Wood", meta:"Solid-wood slab, oiled finish.", add:120 },
+];
+const TOP_COLOUR = [
+  { id:"Oak",        name:"Oak",          add:0,  swatch:"linear-gradient(135deg,#d3ad7b,#b58a55)", surface:"linear-gradient(180deg,#d9b481,#c39a66)", edge:"linear-gradient(180deg,#c7a06a,#a37e4c)", grain:"rgba(90,60,28,.10)" },
+  { id:"Light Brown",name:"Light Brown",  add:30, swatch:"linear-gradient(135deg,#bb8d5f,#9c6e44)", surface:"linear-gradient(180deg,#bf9264,#a3744a)", edge:"linear-gradient(180deg,#aa7d50,#876038)", grain:"rgba(70,44,20,.13)" },
+  { id:"Walnut",     name:"Walnut",       add:60, swatch:"linear-gradient(135deg,#6f4d33,#3f291b)", surface:"linear-gradient(180deg,#714e34,#4c3221)", edge:"linear-gradient(180deg,#573a24,#372114)", grain:"rgba(20,10,4,.16)" },
+  { id:"Olive",      name:"Olive Green",  add:40, swatch:"linear-gradient(135deg,#6c7444,#4c5530)", surface:"linear-gradient(180deg,#6e7646,#525b32)", edge:"linear-gradient(180deg,#5a6238,#3f4727)", grain:"rgba(30,34,14,.14)" },
+];
+const TOP_LENGTH = [
+  { id:"120cm", name:"120", add:0,  px:296 },
+  { id:"140cm", name:"140", add:40, px:344 },
+  { id:"160cm", name:"160", add:80, px:392 },
+];
+const TOP_BREADTH = [
+  { id:"50cm", name:"50", add:0,  depth:.8, soon:true },
+  { id:"60cm", name:"60", add:30, depth:1 },
+];
+const TOP_EDGE = [
+  { id:"Flat",          name:"Flat",          meta:"Square machined edge.", add:0 },
+  { id:"Curve etched",  name:"Curve etched",  meta:"Hand-radiused & etched profile.", add:60, soon:true },
+];
+const FRAME_SWATCH = {
+  Black:{ beam:"linear-gradient(180deg,#3a3a34,#181811)", upper:"linear-gradient(90deg,#222219,#3a3a32,#181811)", lower:"linear-gradient(90deg,#181811,#303029,#101009)", foot:"linear-gradient(180deg,#2c2c25,#131310)" },
+  White:{ beam:"linear-gradient(180deg,#faf9f3,#dddbd0)", upper:"linear-gradient(90deg,#e3e1d6,#fbfaf4,#d8d6cb)", lower:"linear-gradient(90deg,#d8d6cb,#f1efe7,#ceccc1)", foot:"linear-gradient(180deg,#eeece4,#d3d1c6)" },
+};
+const fmt = (n) => "$" + n.toLocaleString("en-SG");
+const Check = () => (<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>);
+const Tick = () => (<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>);
+const BigCheck = () => (<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>);
+const Lock = ({s=13}) => (<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>);
+const X = () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>);
+/* simple leaf mark for the brand */
+const Leaf = ({s=24}) => (<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-5 4.5-9 16-9-1 8-5 13-9 16Z"/><path d="M4 20c2-4 5-7 9-9"/></svg>);
+
+/* ── live desk preview ── */
+function DeskPreview({ sel }){
+  const colour=TOP_COLOUR.find(c=>c.id===sel.topColour)||TOP_COLOUR[0];
+  const length=TOP_LENGTH.find(l=>l.id===sel.length);
+  const breadth=TOP_BREADTH.find(b=>b.id===sel.breadth);
+  const fs=FRAME_SWATCH[sel.frameColour];
+  const isPlywood=sel.material==="Plywood";
+  const isCurve=sel.edge==="Curve etched";
+  const isDual=sel.motor==="Dual Motor";
+  const topW=length.px;
+  const surfaceH=24*breadth.depth+6;
+  const frameW=topW*.74;
+  const grain={backgroundImage:`repeating-linear-gradient(91deg,${colour.grain} 0 1px,transparent 1px 7px),repeating-linear-gradient(89deg,${colour.grain} 0 1px,transparent 1px 13px)`};
+  return (
+    <div className="scene">
+      <div className="scene__floor"/>
+      <div className="scene__shadow" style={{width:topW+24}}/>
+      <div className="desk" style={{width:topW}}>
+        <div className={"top"+(isCurve?" is-curve":"")} style={{width:topW}}>
+          <div className="top__surface" style={{height:surfaceH,background:colour.surface}}>
+            <div style={{position:"absolute",inset:0,borderRadius:"inherit",...grain}}/>
+          </div>
+          <div className={"top__edge"+(isPlywood?" is-plywood":"")} style={{background:colour.edge}}>
+            <div style={{position:"absolute",inset:0,...grain}}/>
+          </div>
+        </div>
+        <div className="frame" style={{width:frameW}}>
+          <div className="frame__beam" style={{background:fs.beam}}/>
+          <div className="frame__legs">
+            {[0,1].map(i=>(
+              <div className="leg" key={i}>
+                <div className="leg__upper" style={{background:fs.upper}}/>
+                <div className="leg__lower" style={{background:fs.lower}}/>
+                <div className="leg__foot" style={{background:fs.foot}}/>
+              </div>
+            ))}
+          </div>
+          {isDual?(<>
+            <div className="motor" style={{left:"12%",width:32}}><span className="motor__dot" style={{right:5}}/></div>
+            <div className="motor" style={{right:"12%",width:32}}><span className="motor__dot" style={{left:5}}/></div>
+          </>):(
+            <div className="motor" style={{left:"50%",transform:"translateX(-50%)",width:frameW*.5}}>
+              <span className="motor__dot" style={{left:"50%",marginLeft:-2}}/>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="scene__dims"><b>{length.name}</b> × <b>{breadth.name}</b> cm · adjusts 72–122 cm</div>
+    </div>
+  );
+}
+
+/* ── controls ── */
+const Group=({label,val,children})=>(
+  <div className="group">
+    <div className="group__head"><span className="group__label">{label}</span><span className="group__val">{val}</span></div>
+    {children}
+  </div>
+);
+function CardOpt({on,onClick,name,meta,add,base,soon}){
+  const price=base!=null?fmt(base):add===0?"Included":"+ "+fmt(add);
+  return (
+    <button type="button" className={"opt"+(on?" on":"")} onClick={onClick}>
+      <span className="opt__check"><Check/></span>
+      <span className="opt__name">{name}{soon&&<span className="soon">Bespoke</span>}</span>
+      {meta&&<span className="opt__meta">{meta}</span>}
+      <span className={"opt__price"+(add===0&&base==null?" zero":"")}>{price}</span>
+    </button>
+  );
+}
+function SwatchOpt({on,onClick,name,add,swatch}){
+  return (
+    <button type="button" className={"opt opt--swatch"+(on?" on":"")} onClick={onClick}>
+      <span className="opt__check"><Check/></span>
+      <span className="swatch" style={{background:swatch}}/>
+      <span className="col">
+        <span className="opt__name" style={{fontSize:14,paddingRight:0}}>{name}</span>
+        <span className={"opt__price"+(add===0?" zero":"")} style={{marginTop:0}}>{add===0?"Included":"+ "+fmt(add)}</span>
+      </span>
+    </button>
+  );
+}
+function PillOpt({on,onClick,name,unit,add,soon}){
+  return (
+    <button type="button" className={"opt opt--pill"+(on?" on":"")} onClick={onClick}>
+      <span className="opt__check"><Check/></span>
+      <span className="opt__name">{name}<span className="unit"> {unit}</span></span>
+      <span className={"opt__price"+(add===0?" zero":"")}>{add===0?"Incl.":"+ "+fmt(add)}{soon&&<span className="soon">★</span>}</span>
+    </button>
+  );
+}
+
+const DEFAULT={motor:"Dual Motor",frameColour:"Black",material:"Real Wood",topColour:"Oak",length:"140cm",breadth:"60cm",edge:"Flat"};
+function load(){try{const s=JSON.parse(localStorage.getItem("ff.cfg"));if(s&&s.motor)return{...DEFAULT,...s};}catch(e){}return DEFAULT;}
+
+/* ── Stripe-style checkout ── */
+function Checkout({open,onClose,sel,lines,total}){
+  const [card,setCard]=useState("");
+  const [exp,setExp]=useState("");
+  const [cvc,setCvc]=useState("");
+  const [name,setName]=useState("");
+  const [email,setEmail]=useState("");
+  const [stage,setStage]=useState("form"); // form | processing | done
+  useEffect(()=>{ if(open){ setStage("form"); } },[open]);
+  if(!open) return null;
+
+  const brand = /^4/.test(card)?"visa":/^5[1-5]/.test(card)||/^2[2-7]/.test(card)?"mc":/^3[47]/.test(card)?"amex":"";
+  const fmtCard=(v)=>v.replace(/\D/g,"").slice(0,16).replace(/(.{4})/g,"$1 ").trim();
+  const fmtExp=(v)=>{const d=v.replace(/\D/g,"").slice(0,4);return d.length>=3?d.slice(0,2)+" / "+d.slice(2):d;};
+  const valid = card.replace(/\s/g,"").length>=15 && exp.replace(/\D/g,"").length===4 && cvc.length>=3 && /@/.test(email);
+
+  const pay=(e)=>{
+    e.preventDefault();
+    if(!valid) return;
+    setStage("processing");
+    setTimeout(()=>setStage("done"),1700);
+  };
+
+  return (
+    <div className={"co show"} role="dialog" aria-modal="true">
+      <div className="co__scrim" onClick={stage==="processing"?null:onClose}/>
+      <div className="co__sheet">
+        <button className="co__close" onClick={onClose} aria-label="Close"><X/></button>
+
+        {stage==="done" ? (
+          <div className="co__done">
+            <div className="co__done-ic"><BigCheck/></div>
+            <h2>Payment received</h2>
+            <p>Thank you. Your made-to-order desk is confirmed — we’ll email {email||"your receipt"} and begin production. Delivery in 3–4 weeks.</p>
+            <button className="pay" onClick={onClose}>Done</button>
+          </div>
+        ) : (<>
+          {/* left: order */}
+          <div className="co__left">
+            <div className="co__merchant"><span className="brand__mark"><Leaf s={20}/></span> Furniture Factory</div>
+            <div className="co__amount-lbl">Pay Furniture Factory</div>
+            <div className="co__amount">{fmt(total)}<small>SGD</small></div>
+            <dl className="co__lines">
+              <div className="co__line"><dt>Standing desk — custom<small>{sel.motor} · {sel.topColour} {sel.material} · {sel.length}×{sel.breadth}</small></dt><dd>{fmt(total)}</dd></div>
+              <div className="co__line"><dt>Delivery & assembly<small>Singapore</small></dt><dd>Free</dd></div>
+            </dl>
+            <div className="co__total"><span>Total due</span><span>{fmt(total)}</span></div>
+          </div>
+          {/* right: payment */}
+          <form className="co__right" onSubmit={pay}>
+            <h3 className="co__rh">Pay with card</h3>
+            <p className="co__rsub">Enter your payment details to confirm your order.</p>
+            <div className="field">
+              <label className="field__l">Email</label>
+              <input className="inp" type="email" placeholder="you@email.com" value={email} onChange={e=>setEmail(e.target.value)} />
+            </div>
+            <div className="field">
+              <label className="field__l">Card information</label>
+              <div className="card-grp">
+                <div className="card-num">
+                  <input className="inp" inputMode="numeric" placeholder="1234 1234 1234 1234" value={card} onChange={e=>setCard(fmtCard(e.target.value))} />
+                  <div className="card-brand">
+                    <i className={"cb-visa"+(brand==="visa"?" lit":"")}/>
+                    <i className={"cb-mc"+(brand==="mc"?" lit":"")}/>
+                    <i className={"cb-amex"+(brand==="amex"?" lit":"")}/>
+                  </div>
+                </div>
+                <div className="card-row">
+                  <input className="inp" inputMode="numeric" placeholder="MM / YY" value={exp} onChange={e=>setExp(fmtExp(e.target.value))} />
+                  <input className="inp" inputMode="numeric" placeholder="CVC" value={cvc} onChange={e=>setCvc(e.target.value.replace(/\D/g,"").slice(0,4))} />
+                </div>
+              </div>
+            </div>
+            <div className="field">
+              <label className="field__l">Cardholder name</label>
+              <input className="inp" placeholder="Full name on card" value={name} onChange={e=>setName(e.target.value)} />
+            </div>
+            <button className="pay" type="submit" disabled={stage==="processing"||!valid}>
+              {stage==="processing" ? (<><span className="pay__spin"/> Processing…</>) : (<><Lock/> Pay {fmt(total)}</>)}
+            </button>
+            <div className="co__secure"><Lock s={12}/> Payments are secure and encrypted</div>
+            <div className="co__powered">Powered by <b>Stripe</b></div>
+            <div className="co__terms">Demo checkout — no real card is charged. Wire to a Stripe account to take live payments.</div>
+          </form>
+        </>)}
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [sel,setSel]=useState(load);
+  const [cart,setCart]=useState(()=>{try{return JSON.parse(localStorage.getItem("ff.cart"))||0;}catch(e){return 0;}});
+  const [added,setAdded]=useState(false);
+  const [toast,setToast]=useState(null);
+  const [checkout,setCheckout]=useState(false);
+  const tt=useRef(null);
+  useEffect(()=>{localStorage.setItem("ff.cfg",JSON.stringify(sel));},[sel]);
+  useEffect(()=>{localStorage.setItem("ff.cart",JSON.stringify(cart));},[cart]);
+  useEffect(()=>{document.body.style.overflow=checkout?"hidden":"";},[checkout]);
+  const set=(k)=>(v)=>{setSel(s=>({...s,[k]:v}));setAdded(false);};
+
+  const motor=FRAME_MOTOR.find(m=>m.id===sel.motor);
+  const frameColour=FRAME_COLOUR.find(c=>c.id===sel.frameColour);
+  const material=TOP_MATERIAL.find(m=>m.id===sel.material);
+  const topColour=TOP_COLOUR.find(c=>c.id===sel.topColour)||TOP_COLOUR[0];
+  const length=TOP_LENGTH.find(l=>l.id===sel.length);
+  const breadth=TOP_BREADTH.find(b=>b.id===sel.breadth);
+  const edge=TOP_EDGE.find(e=>e.id===sel.edge);
+  const total=motor.base+frameColour.add+material.add+topColour.add+length.add+breadth.add+edge.add;
+
+  const addToCart=()=>{
+    setCart(c=>c+1);setAdded(true);
+    setToast({t:"Added to cart",b:`${sel.topColour} ${sel.material} top · ${sel.length} · ${sel.motor} frame — ${fmt(total)}`});
+    clearTimeout(tt.current);tt.current=setTimeout(()=>setToast(null),3600);
+  };
+  const z=(n)=>n===0?"—":"+ "+fmt(n);
+
+  return (
+    <div>
+      <div className="site">
+      <div className="promo">Quality products straight to your doorstep — close to manufacturing price.</div>
+      <header className="hd">
+        <a className="brand" href="index.html">Furniture Factory</a>
+        <nav className="nav">
+          <a href="index.html">Standing Desk</a>
+          <a href="customise.html" className="active">Customise</a>
+          <a href="index.html#why">Why Us</a>
+        </nav>
+        <button className="cart" type="button" onClick={()=>cart>0&&setCheckout(true)}>Cart{cart>0&&<span className="cart__count">{cart}</span>}</button>
+      </header>
+
+      <section className="intro">
+        <div className="crumbs">Home / Standing Desks / <span>Customise</span></div>
+        <h1>Customise your standing desk</h1>
+        <p>Choose your frame and tabletop. The preview and price update as you build — the exact configuration we make in our factory and ship to your door.</p>
+      </section>
+
+      <main className="wrap" data-screen-label="Customise">
+        <div className="stage">
+          <div className="viewer">
+            <span className="viewer__tag">Live preview</span>
+            <span className="viewer__price"><b>{fmt(total)}</b> SGD</span>
+            <DeskPreview sel={sel}/>
+          </div>
+        </div>
+
+        <div className="panel">
+          <section className="section">
+            <h2 className="section__title"><span className="n">1</span> Frame</h2>
+            <p className="section__note">Electric height-adjustable base. The motor sets lift capacity and speed.</p>
+            <Group label="Motor" val={sel.motor}>
+              <div className="opts opts--2">
+                {FRAME_MOTOR.map(m=><CardOpt key={m.id} on={sel.motor===m.id} onClick={()=>set("motor")(m.id)} name={m.name} meta={m.meta} base={m.base}/>)}
+              </div>
+            </Group>
+            <Group label="Frame colour" val={sel.frameColour}>
+              <div className="opts opts--2">
+                {FRAME_COLOUR.map(c=><SwatchOpt key={c.id} on={sel.frameColour===c.id} onClick={()=>set("frameColour")(c.id)} name={c.name} add={c.add} swatch={c.swatch}/>)}
+              </div>
+            </Group>
+          </section>
+
+          <section className="section">
+            <h2 className="section__title"><span className="n">2</span> Tabletop</h2>
+            <p className="section__note">The slab on top. Material, colour, size and edge are chosen independently.</p>
+            <Group label="Material" val={sel.material}>
+              <div className="opts opts--2">
+                {TOP_MATERIAL.map(m=><CardOpt key={m.id} on={sel.material===m.id} onClick={()=>set("material")(m.id)} name={m.name} meta={m.meta} add={m.add}/>)}
+              </div>
+            </Group>
+            <Group label="Colour" val={topColour.name}>
+              <div className="opts opts--2">
+                {TOP_COLOUR.map(c=><SwatchOpt key={c.id} on={sel.topColour===c.id} onClick={()=>set("topColour")(c.id)} name={c.name} add={c.add} swatch={c.swatch}/>)}
+              </div>
+            </Group>
+            <Group label="Length" val={sel.length}>
+              <div className="opts opts--3">
+                {TOP_LENGTH.map(l=><PillOpt key={l.id} on={sel.length===l.id} onClick={()=>set("length")(l.id)} name={l.name} unit="cm" add={l.add}/>)}
+              </div>
+            </Group>
+            <Group label="Breadth" val={sel.breadth}>
+              <div className="opts opts--2">
+                {TOP_BREADTH.map(b=><PillOpt key={b.id} on={sel.breadth===b.id} onClick={()=>set("breadth")(b.id)} name={b.name} unit="cm" add={b.add} soon={b.soon}/>)}
+              </div>
+            </Group>
+            <Group label="Edge finish" val={sel.edge}>
+              <div className="opts opts--2">
+                {TOP_EDGE.map(e=><CardOpt key={e.id} on={sel.edge===e.id} onClick={()=>set("edge")(e.id)} name={e.name} meta={e.meta} add={e.add} soon={e.soon}/>)}
+              </div>
+            </Group>
+          </section>
+
+          <div className="summary">
+            <div className="summary__h"><h3>Your desk</h3><span>2 components · 7 options</span></div>
+            <dl className="bill">
+              <div className="bill__r"><dt>{sel.motor} frame</dt><dd>{fmt(motor.base)}</dd></div>
+              <div className="bill__r"><dt>{sel.frameColour} finish</dt><dd className={frameColour.add===0?"zero":""}>{z(frameColour.add)}</dd></div>
+              <div className="bill__r"><dt>{sel.material} top</dt><dd className={material.add===0?"zero":""}>{z(material.add)}</dd></div>
+              <div className="bill__r"><dt>{topColour.name} colour</dt><dd className={topColour.add===0?"zero":""}>{z(topColour.add)}</dd></div>
+              <div className="bill__r"><dt>{sel.length} × {sel.breadth}</dt><dd className={length.add+breadth.add===0?"zero":""}>{z(length.add+breadth.add)}</dd></div>
+              <div className="bill__r"><dt>{sel.edge} edge</dt><dd className={edge.add===0?"zero":""}>{z(edge.add)}</dd></div>
+              <hr className="bill__rule"/>
+              <div className="bill__t"><dt>Total</dt><dd>{fmt(total)}<small>SGD</small></dd></div>
+            </dl>
+            <div className="btns">
+              <button type="button" className="btn btn--primary" onClick={()=>setCheckout(true)}>Checkout securely</button>
+              <button type="button" className={"btn btn--ghost"+(added?" added":"")} onClick={addToCart}>{added?"Added to cart ✓":"Add to cart"}</button>
+            </div>
+            <div className="assure">
+              <span><Tick/> Free delivery & assembly</span>
+              <span><Tick/> 10-year frame warranty</span>
+            </div>
+            <p className="fine">Made to order in our factory · 3–4 weeks · Singapore</p>
+          </div>
+        </div>
+      </main>
+
+      <footer className="foot">
+        <div className="foot__in">
+          <div className="foot__b"><span className="brand__mark"><Leaf s={18}/></span> Furniture Factory</div>
+          <div className="foot__c">© 2026 Furniture Factory · Standing desks & accessories, factory direct · Singapore</div>
+        </div>
+      </footer>
+      </div>
+
+      <div className={"toast"+(toast?" show":"")} aria-live="polite">
+        {toast&&(<><div className="toast__t">{toast.t}</div><div className="toast__b">{toast.b}</div></>)}
+      </div>
+
+      <Checkout open={checkout} onClose={()=>setCheckout(false)} sel={sel} total={total} />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>
