@@ -260,15 +260,26 @@ button{font-family:var(--sans);cursor:pointer;}
 .co__done .pay{max-width:240px;margin-top:28px;}
 
 @media(max-width:980px){
-  .wrap{grid-template-columns:1fr;gap:32px;}
+  .wrap{grid-template-columns:1fr;gap:24px;padding:18px 18px 36px;}
   .stage{position:static;}
+  .viewer{height:auto;min-height:0;max-height:none;aspect-ratio:4/3;}
+  .intro{padding:24px 18px 4px;}
+  .intro h1{font-size:36px;}
   .co__sheet{grid-template-columns:1fr;overflow-y:auto;}
 }
 @media(max-width:600px){
-  body{padding:12px;}
-  .hd{padding:16px 18px;}.nav{display:none;}
-  .intro,.wrap,.foot__in{padding-left:18px;padding-right:18px;}
-  .intro h1{font-size:34px;}
+  body{padding:8px;}
+  .hd{padding:14px 16px;}
+  .nav{display:none;}
+  .intro,.wrap,.foot__in{padding-left:16px;padding-right:16px;}
+  .intro{padding-top:20px;}
+  .intro h1{font-size:30px;margin-top:8px;}
+  .intro p{font-size:14px;}
+  .wrap{padding:16px 16px 32px;gap:20px;}
+  .viewer{aspect-ratio:1/1;}
+  .section{padding-bottom:18px;margin-bottom:18px;}
+  .section__title{font-size:23px;}
+  .summary{padding:18px;}
   .co__left,.co__right{padding:34px 24px;}
 }
 @media(prefers-reduced-motion:no-preference){
