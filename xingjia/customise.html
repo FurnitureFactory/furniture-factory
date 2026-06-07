@@ -1079,27 +1079,40 @@ function PillOpt({on,onClick,name,unit,add,soon}){
 const DEFAULT={motor:"Dual Motor",frameColour:"Black",material:"Real Wood",topColour:"Oak",length:"140cm",breadth:"60cm",edge:"Flat"};
 function load(){try{const s=JSON.parse(localStorage.getItem("ff.cfg"));if(s&&s.motor)return{...DEFAULT,...s};}catch(e){}return DEFAULT;}
 
-/* ── Stripe-style checkout ── */
-function Checkout({open,onClose,sel,lines,total}){
-  const [card,setCard]=useState("");
-  const [exp,setExp]=useState("");
-  const [cvc,setCvc]=useState("");
-  const [name,setName]=useState("");
+/* ── Stripe Checkout ── */
+function Checkout({open,onClose,sel,total,paid}){
   const [email,setEmail]=useState("");
-  const [stage,setStage]=useState("form"); // form | processing | done
-  useEffect(()=>{ if(open){ setStage("form"); } },[open]);
+  const [stage,setStage]=useState("form"); // form | processing | done | error
+  const [err,setErr]=useState("");
+  useEffect(()=>{
+    if(open){
+      setErr("");
+      setStage(paid ? "done" : "form");
+    }
+  },[open,paid]);
   if(!open) return null;
 
-  const brand = /^4/.test(card)?"visa":/^5[1-5]/.test(card)||/^2[2-7]/.test(card)?"mc":/^3[47]/.test(card)?"amex":"";
-  const fmtCard=(v)=>v.replace(/\D/g,"").slice(0,16).replace(/(.{4})/g,"$1 ").trim();
-  const fmtExp=(v)=>{const d=v.replace(/\D/g,"").slice(0,4);return d.length>=3?d.slice(0,2)+" / "+d.slice(2):d;};
-  const valid = card.replace(/\s/g,"").length>=15 && exp.replace(/\D/g,"").length===4 && cvc.length>=3 && /@/.test(email);
+  const valid = /@/.test(email);
 
-  const pay=(e)=>{
+  const pay=async (e)=>{
     e.preventDefault();
-    if(!valid) return;
+    if(!valid || stage==="processing") return;
     setStage("processing");
-    setTimeout(()=>setStage("done"),1700);
+    setErr("");
+    try{
+      const res=await fetch("/api/create-checkout-session",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ sel, email, total }),
+      });
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(data.error||"Checkout failed");
+      if(!data.url) throw new Error("No checkout URL returned");
+      window.location.href=data.url;
+    }catch(ex){
+      setStage("error");
+      setErr(ex.message||"Something went wrong");
+    }
   };
 
   return (
@@ -1116,7 +1129,6 @@ function Checkout({open,onClose,sel,lines,total}){
             <button className="pay" onClick={onClose}>Done</button>
           </div>
         ) : (<>
-          {/* left: order */}
           <div className="co__left">
             <div className="co__merchant"><span className="brand__mark"><Leaf s={20}/></span> Furniture Factory</div>
             <div className="co__amount-lbl">Pay Furniture Factory</div>
@@ -1127,41 +1139,20 @@ function Checkout({open,onClose,sel,lines,total}){
             </dl>
             <div className="co__total"><span>Total due</span><span>{fmt(total)}</span></div>
           </div>
-          {/* right: payment */}
           <form className="co__right" onSubmit={pay}>
-            <h3 className="co__rh">Pay with card</h3>
-            <p className="co__rsub">Enter your payment details to confirm your order.</p>
+            <h3 className="co__rh">Secure checkout</h3>
+            <p className="co__rsub">Enter your email, then continue to Stripe to pay by card or PayNow.</p>
             <div className="field">
               <label className="field__l">Email</label>
-              <input className="inp" type="email" placeholder="you@email.com" value={email} onChange={e=>setEmail(e.target.value)} />
-            </div>
-            <div className="field">
-              <label className="field__l">Card information</label>
-              <div className="card-grp">
-                <div className="card-num">
-                  <input className="inp" inputMode="numeric" placeholder="1234 1234 1234 1234" value={card} onChange={e=>setCard(fmtCard(e.target.value))} />
-                  <div className="card-brand">
-                    <i className={"cb-visa"+(brand==="visa"?" lit":"")}/>
-                    <i className={"cb-mc"+(brand==="mc"?" lit":"")}/>
-                    <i className={"cb-amex"+(brand==="amex"?" lit":"")}/>
-                  </div>
-                </div>
-                <div className="card-row">
-                  <input className="inp" inputMode="numeric" placeholder="MM / YY" value={exp} onChange={e=>setExp(fmtExp(e.target.value))} />
-                  <input className="inp" inputMode="numeric" placeholder="CVC" value={cvc} onChange={e=>setCvc(e.target.value.replace(/\D/g,"").slice(0,4))} />
-                </div>
-              </div>
-            </div>
-            <div className="field">
-              <label className="field__l">Cardholder name</label>
-              <input className="inp" placeholder="Full name on card" value={name} onChange={e=>setName(e.target.value)} />
+              <input className="inp" type="email" placeholder="you@email.com" value={email} onChange={e=>setEmail(e.target.value)} required />
             </div>
             <button className="pay" type="submit" disabled={stage==="processing"||!valid}>
-              {stage==="processing" ? (<><span className="pay__spin"/> Processing…</>) : (<><Lock/> Pay {fmt(total)}</>)}
+              {stage==="processing" ? (<><span className="pay__spin"/> Redirecting to Stripe…</>) : (<><Lock/> Pay {fmt(total)} with Stripe</>)}
             </button>
+            {stage==="error" && err ? <p className="co__terms" style={{color:"#b3261e"}}>{err}</p> : null}
             <div className="co__secure"><Lock s={12}/> Payments are secure and encrypted</div>
             <div className="co__powered">Powered by <b>Stripe</b></div>
-            <div className="co__terms">Demo checkout — no real card is charged. Wire to a Stripe account to take live payments.</div>
+            <div className="co__terms">You’ll be redirected to Stripe’s hosted checkout. Your desk configuration is saved with the order.</div>
           </form>
         </>)}
       </div>
@@ -1175,10 +1166,25 @@ function App(){
   const [added,setAdded]=useState(false);
   const [toast,setToast]=useState(null);
   const [checkout,setCheckout]=useState(false);
+  const [paid,setPaid]=useState(false);
   const tt=useRef(null);
   useEffect(()=>{localStorage.setItem("ff.cfg",JSON.stringify(sel));},[sel]);
   useEffect(()=>{localStorage.setItem("ff.cart",JSON.stringify(cart));},[cart]);
   useEffect(()=>{document.body.style.overflow=checkout?"hidden":"";},[checkout]);
+  useEffect(()=>{
+    const p=new URLSearchParams(window.location.search);
+    if(p.get("paid")==="1"){
+      setPaid(true);
+      setCheckout(true);
+      setCart(0);
+      localStorage.setItem("ff.cart","0");
+      window.history.replaceState({}, "", window.location.pathname);
+    }else if(p.get("cancelled")==="1"){
+      setToast({t:"Checkout cancelled",b:"Your desk configuration is still saved — try again when ready."});
+      clearTimeout(tt.current);tt.current=setTimeout(()=>setToast(null),4200);
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  },[]);
   const set=(k)=>(v)=>{setSel(s=>({...s,[k]:v}));setAdded(false);};
 
   const motor=FRAME_MOTOR.find(m=>m.id===sel.motor);
@@ -1308,7 +1314,7 @@ function App(){
         {toast&&(<><div className="toast__t">{toast.t}</div><div className="toast__b">{toast.b}</div></>)}
       </div>
 
-      <Checkout open={checkout} onClose={()=>setCheckout(false)} sel={sel} total={total} />
+      <Checkout open={checkout} onClose={()=>{setCheckout(false);setPaid(false);}} sel={sel} total={total} paid={paid} />
     </div>
   );
 }
