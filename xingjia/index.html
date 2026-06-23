@@ -3,15 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Furniture Factory — The standing desk, factory direct</title>
+  <title>Furniture Factory | The standing desk, factory direct</title>
   <meta name="description" content="Premium sit-stand desks, factory direct in Singapore. Customise your desk, free delivery and assembly from $399 SGD." />
-  <meta property="og:title" content="Furniture Factory — Standing desks, factory direct" />
+  <meta property="og:title" content="Furniture Factory | Standing desks, factory direct" />
   <meta property="og:description" content="Premium sit-stand desks minus the showroom markup. Customise yours and get free delivery across Singapore." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%235f6b39' width='32' height='32' rx='4'/%3E%3Cpath fill='%23f4efe6' d='M11 20A7 7 0 0 1 4 13c0-5 4.5-9 16-9-1 8-5 13-9 16Z'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/critical-chrome.css" />
+  <link rel="stylesheet" href="/shared.css" />
   <style>
 :root{
   --backdrop:#d4d0c5;
@@ -33,126 +35,115 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 html,body{margin:0;}
-body{background:var(--mat);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+body{background:var(--wood-base,#e6e0d4);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
   padding:0;min-height:100vh;}
 ::selection{background:var(--olive);color:#fff;}
 
-/* ── full-width site shell (edge to edge) ── */
-.site{max-width:none;width:100%;margin:0;position:relative;background:var(--mat);padding:12px;}
-
-.ribbon{text-align:center;font-size:9.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
-  color:var(--muted);padding:11px;border-bottom:1px solid var(--line);}
-
-/* ── header ── */
-.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:19px 30px;border-bottom:1px solid var(--line);}
-.brand{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  text-decoration:none;color:var(--ink);white-space:nowrap;}
-.nav{display:flex;gap:26px;}
-.nav a{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
-  text-decoration:none;transition:color .15s;}
-.nav a:hover,.nav a.active{color:var(--olive);}
-.tools{display:flex;align-items:center;gap:10px;}
-.iconbtn{position:relative;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);
-  background:var(--surface);display:grid;place-items:center;color:var(--ink);text-decoration:none;cursor:pointer;
-  transition:background .15s,border-color .15s,color .15s;}
-.iconbtn:hover{border-color:var(--olive);color:var(--olive);}
-.cartcount{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;border-radius:99px;
-  background:var(--olive);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;}
-.cartcount[hidden]{display:none;}
-
-/* ── full-viewport hero splash ── */
-.hero--splash{
-  --desk-scale:min(2.5,(100vw - 48px) / 400,(100dvh - 104px) / 300);
-  position:relative;
-  height:calc(100svh - 24px);
-  height:calc(100dvh - 24px);
-  min-height:456px;
-  background:linear-gradient(165deg,#9ba277 0%,#838b5d 55%,#737b4e 100%);
-  box-shadow:inset 0 0 0 10px var(--mat);
-  overflow:hidden;
-}
-.hero__hd{
-  position:absolute;top:10px;left:10px;right:10px;z-index:20;
-  background:rgba(243,239,231,.92);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(67,57,36,.08);
-}
-.hero__stage{
-  position:absolute;inset:10px;
-  display:flex;align-items:center;justify-content:center;
-  perspective:1100px;
-}
-.hero__stage .scene{
-  position:relative;width:100%;height:100%;
-  display:flex;align-items:flex-end;justify-content:center;
-  padding-bottom:max(56px,11vh);
-}
-.hero__stage .scene__floor{
-  position:absolute;left:8%;right:8%;bottom:18%;height:16px;
-  background:radial-gradient(ellipse 55% 100% at 50% 0,rgba(0,0,0,.22),transparent 70%);
-  pointer-events:none;
-}
-.hero__stage .scene__shadow{
-  position:absolute;left:50%;bottom:16%;transform:translateX(-50%);
-  width:min(72%,520px);height:24px;border-radius:50%;
-  background:radial-gradient(ellipse at center,rgba(0,0,0,.34),transparent 70%);
-  filter:blur(7px);pointer-events:none;
-}
-.desk-hit{
-  position:relative;z-index:3;cursor:pointer;
-  border:0;background:none;padding:0;
-  -webkit-tap-highlight-color:transparent;
-  transition:transform .42s var(--ease);
-  transform:scale(var(--desk-scale));
+.site--home{position:relative;background:var(--wood-base);}
+/* lifestyle photo everywhere — no flat gaps in gutters */
+.site--home::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-color:var(--wood-base);
+  background-image:var(--grain-photo);
+  background-size:cover;
+  background-position:center center;
+  background-attachment:fixed;
+  filter:var(--bg-photo-filter);
+  transform:scale(1.02);
   transform-origin:center center;
 }
-.desk-hit:hover{transform:scale(calc(var(--desk-scale) * 1.03));}
-.desk-hit.is-leaving{transform:scale(calc(var(--desk-scale) * 1.06));}
-.desk-hit .desk{position:relative;transform-origin:center center;}
-.desk-hit .top{position:relative;}
-.desk-hit .top__surface{height:34px;position:relative;transform:perspective(900px) rotateX(34deg);transform-origin:bottom center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(0,0,0,.25);}
-.desk-hit .top__edge{height:26px;position:relative;overflow:hidden;box-shadow:0 20px 30px -12px rgba(0,0,0,.5),inset 0 -1px 2px rgba(0,0,0,.15);}
-.desk-hit .grain{position:absolute;inset:0;
-  background-image:repeating-linear-gradient(91deg,rgba(90,60,28,.1) 0 1px,transparent 1px 7px),repeating-linear-gradient(89deg,rgba(90,60,28,.1) 0 1px,transparent 1px 13px);}
-.desk-hit .frame{position:relative;margin:0 auto;}
-.desk-hit .frame__beam{height:14px;border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 4px rgba(0,0,0,.28);}
-.desk-hit .frame__legs{display:flex;justify-content:space-between;padding:0 13%;}
-.desk-hit .leg{display:flex;flex-direction:column;align-items:center;}
-.desk-hit .leg__upper{width:26px;height:92px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.2),inset -1px 0 0 rgba(0,0,0,.12);}
-.desk-hit .leg__lower{width:35px;height:88px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(0,0,0,.14);}
-.desk-hit .leg__foot{width:108px;height:11px;border-radius:3px;margin-top:2px;box-shadow:0 8px 12px -5px rgba(0,0,0,.5);}
-.desk-hit .motor{position:absolute;top:-3px;height:18px;border-radius:3px;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(0,0,0,.18));box-shadow:0 1px 2px rgba(0,0,0,.22);}
-.desk-hit .motor__dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--oak);top:6px;}
-.hero__dims{position:absolute;bottom:max(20px,3vh);left:0;right:0;text-align:center;z-index:5;
-  font-size:10px;font-weight:600;letter-spacing:.1em;color:rgba(244,239,230,.72);pointer-events:none;}
-.hero__dims b{color:#f4efe6;}
-.hero__side{position:absolute;left:max(20px,3vw);top:max(88px,12vh);z-index:5;display:flex;flex-direction:column;gap:14px;
-  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,239,230,.62);line-height:1.55;pointer-events:none;}
-.hero__side b{display:block;height:1px;width:18px;background:rgba(244,239,230,.35);margin-bottom:6px;}
-.hero__cap{position:absolute;right:max(20px,3vw);top:max(88px,12vh);z-index:5;font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,239,230,.62);pointer-events:none;}
-.hero__open{position:absolute;right:max(18px,3vw);bottom:max(52px,8vh);z-index:5;display:inline-flex;align-items:center;gap:9px;
-  font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#f4efe6;
-  background:rgba(95,107,57,.9);padding:11px 15px;pointer-events:none;}
-.hero__scroll{
-  position:absolute;left:50%;bottom:max(14px,2vh);z-index:5;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(244,239,230,.55);text-decoration:none;transition:color .15s;
+.site--home > *{position:relative;z-index:1;}
+
+.ribbon{text-align:center;font-size:9.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--muted);padding:6px 16px;border-bottom:1px solid var(--line);}
+
+/* ── hero: photo + green type ── */
+.hero--splash{
+  position:relative;z-index:2;
+  height:100vh;
+  height:100dvh;
+  min-height:100dvh;
+  background:transparent;
+  border-radius:0;
+  overflow:hidden;
 }
-.hero__scroll:hover{color:rgba(244,239,230,.9);}
+.hero__stage{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:max(72px,10vh) 24px max(88px,12vh);
+}
+.hero__intro{
+  position:relative;z-index:5;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  max-width:min(92vw,560px);
+  padding:0;
+  will-change:opacity,transform;
+}
+.hero__title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(34px,10vw,68px);
+  font-weight:500;
+  line-height:.94;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--olive);
+  text-shadow:0 1px 14px rgba(252,249,243,.85),0 2px 28px rgba(40,34,18,.12);
+}
+.hero__tagline{
+  margin:20px 0 0;
+  font-family:var(--serif);
+  font-size:clamp(21px,5vw,28px);
+  line-height:1.3;
+  font-weight:600;
+  font-style:italic;
+  color:var(--olive-d);
+  letter-spacing:.01em;
+  white-space:nowrap;
+  text-shadow:0 1px 12px rgba(252,249,243,.92),0 2px 6px rgba(252,249,243,.72);
+}
+.hero__cta{
+  margin-top:28px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;color:#fff;
+  background:var(--olive-d);
+  padding:15px 28px;border:2px solid rgba(180,200,120,.75);border-radius:12px;cursor:pointer;
+  box-shadow:0 0 14px rgba(95,107,57,.55),0 0 28px rgba(73,82,31,.32),inset 0 1px 0 rgba(255,255,255,.16);
+  animation:ctaGlow 2.8s var(--ease) infinite;
+  transition:background .15s,transform .1s,border-color .15s,box-shadow .15s;
+}
+.hero__cta:hover{background:#3d4520;border-color:rgba(200,218,140,.85);
+  box-shadow:0 0 18px rgba(95,107,57,.72),0 0 36px rgba(73,82,31,.42),inset 0 1px 0 rgba(255,255,255,.2);}
+.hero__cta:active{transform:translateY(1px);}
+@keyframes ctaGlow{
+  0%,100%{box-shadow:0 0 12px rgba(95,107,57,.5),0 0 24px rgba(73,82,31,.28),inset 0 1px 0 rgba(255,255,255,.14);}
+  50%{box-shadow:0 0 20px rgba(95,107,57,.72),0 0 40px rgba(73,82,31,.4),inset 0 1px 0 rgba(255,255,255,.2);}
+}
+.hero__scroll{
+  position:absolute;left:50%;bottom:max(14px,2vh);z-index:6;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:9px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(252,249,243,.88);text-decoration:none;transition:color .15s,background .2s,box-shadow .2s;
+  padding:10px 16px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(40,34,18,.18);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:10px;
+  text-shadow:0 1px 8px rgba(40,34,18,.25);
+}
+.hero__scroll:hover{color:#fff;box-shadow:0 8px 24px rgba(40,34,18,.18);}
 .hero__scroll svg{animation:scrollCue 2s var(--ease) infinite;}
 @keyframes scrollCue{0%,100%{transform:translateY(0);opacity:.55;}50%{transform:translateY(5px);opacity:1;}}
-.site-body{background:var(--paper);}
 
 /* ── editorial band ── */
-.band{display:grid;grid-template-columns:1.12fr .88fr;gap:42px;align-items:end;padding:30px 38px 40px;}
-.eyebrow{font-size:10px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--olive);margin:0;}
-.band__copy h2{font-family:var(--serif);font-weight:400;font-size:44px;line-height:1.03;letter-spacing:.005em;margin:14px 0 0;}
-.lede{font-size:14.5px;line-height:1.66;color:var(--ink-2);margin:18px 0 0;max-width:46ch;text-wrap:pretty;}
+.band{padding:0;width:100%;}
+.spec{border-bottom:none;}
+.specs .spec{border-bottom:none;}
 .cta-row{display:flex;align-items:center;flex-wrap:wrap;gap:14px 22px;margin-top:22px;}
-.cta{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-  text-decoration:none;color:#f4efe6;background:var(--olive);padding:15px 24px;border:none;cursor:pointer;transition:background .15s,transform .1s;}
+.cta{display:inline-flex;align-items:center;gap:11px;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;color:#fff;background:var(--olive);padding:15px 24px;border:none;border-radius:12px;cursor:pointer;
+  box-shadow:0 2px 8px rgba(95,107,57,.25);transition:background .15s,transform .1s,box-shadow .15s;}
 .cta:hover{background:var(--olive-d);}
 .cta:active{transform:translateY(1px);}
 .cta--light{background:#f4efe6;color:var(--olive-d);}
@@ -160,60 +151,34 @@ body{background:var(--mat);color:var(--ink);font-family:var(--sans);-webkit-font
 .price{font-size:13px;color:var(--muted);letter-spacing:.04em;}
 .price b{font-family:var(--serif);font-size:33px;font-weight:500;color:var(--ink);margin:0 5px;}
 .price i{font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase;}
-.specs{border-left:1px solid var(--line);padding-left:30px;}
-.spec{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--line);}
+.spec{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:baseline;padding:11px 0;}
 .spec span{text-align:right;white-space:nowrap;}
 .spec:last-child{border-bottom:0;}
 .spec b{font-family:var(--serif);font-weight:500;font-size:24px;letter-spacing:.01em;}
 .spec span{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
 
 /* ── values ── */
-.values{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);}
-.value{padding:32px 38px;}
-.value:first-child{border-right:1px solid var(--line);}
-.value .num{font-family:var(--serif);font-size:24px;color:var(--olive);}
-.value h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:8px 0 8px;letter-spacing:.01em;}
-.value p{font-size:13px;line-height:1.62;color:var(--ink-2);margin:0;}
-
-/* ── closer ── */
-.closer{background:var(--olive);color:#eef0de;text-align:center;padding:54px 38px;}
-.closer .eyebrow{color:rgba(238,240,222,.72);}
-.closer h2{font-family:var(--serif);font-weight:400;font-size:38px;letter-spacing:.01em;margin:12px 0 26px;color:#fbf9f0;}
-
-/* ── footer ── */
-.foot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 30px;border-top:1px solid var(--line);}
-.foot .brand{font-size:15px;}
-.foot__c{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.values{display:grid;grid-template-columns:1fr 1fr;border-top:none;gap:16px;padding:0;width:100%;}
+.value{border:none;}
+.value:first-child{border-right:none;}
 
 @media(max-width:820px){
-  .nav{display:none;}
-  .ribbon{padding:9px 12px;font-size:9px;}
-  .hd{padding:14px 16px;gap:12px;}
-  .brand{font-size:18px;letter-spacing:.16em;}
-  .site{padding:8px;}
-  .hero--splash{
-    --desk-scale:min(1.9,(100vw - 32px) / 440,(100dvh - 88px) / 340);
-    height:calc(100dvh - 16px);
-    min-height:420px;
-    box-shadow:inset 0 0 0 8px var(--mat);
-  }
-  .hero__stage{inset:8px;}
-  .hero__hd{top:8px;left:8px;right:8px;}
-  .hero__side,.hero__cap{display:none;}
-  .band{grid-template-columns:1fr;gap:18px;padding:20px 18px 22px;}
+  .hero__stage{padding:max(64px,9vh) 20px max(80px,11vh);}
+  .hero__title{letter-spacing:.14em;}
+  .hero__tagline{margin-top:18px;font-size:clamp(18px,4.8vw,24px);}
+  .hero__cta{margin-top:24px;padding:15px 24px;}
+  .band{grid-template-columns:1fr;gap:12px;}
   .band__copy h2{font-size:32px;margin-top:10px;}
   .lede{margin-top:12px;font-size:14px;}
   .cta-row{margin-top:18px;}
-  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 12px;border-left:0;border-top:1px solid var(--line);padding:16px 0 0;}
+  .glass-panel__aside .specs-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 8px;}
   .spec{grid-template-columns:1fr;padding:0;border-bottom:0;gap:2px;}
   .spec span{text-align:left;font-size:9px;}
-  .spec b{font-size:20px;}
+  .spec b{font-size:18px;}
   .values{grid-template-columns:1fr;}
-  .value:first-child{border-right:0;border-bottom:1px solid var(--line);}
-  .value{padding:22px 18px;}
-  .closer{padding:36px 18px;}
-  .closer h2{font-size:30px;margin-bottom:20px;}
-  .foot{flex-direction:column;align-items:flex-start;gap:6px;padding:16px 18px;}
+  .value:first-child{border-right:0;}
+  .editorial-copy{padding:24px 22px;}
+  .closer .editorial-copy h2{font-size:30px;}
 }
 @media(max-width:480px){
   .specs{grid-template-columns:1fr;gap:0;}
@@ -222,16 +187,8 @@ body{background:var(--mat);color:var(--ink);font-family:var(--sans);-webkit-font
   .band__copy h2{font-size:28px;}
 }
 @media(prefers-reduced-motion:reduce){
-  .desk-hit{transition:none;}
   .hero__scroll svg{animation:none;}
-}
-@media(prefers-reduced-motion:no-preference){
-  .desk-hit .desk{animation:heroSwivel 8s var(--ease) 1s infinite both;}
-  .desk-hit .leg__upper{animation:heroLegs 8s var(--ease) 1s infinite both;}
-  .hero__stage .scene__shadow{animation:heroShadow 8s var(--ease) 1s infinite both;}
-  @keyframes heroSwivel{0%{transform:rotateY(-6deg);}50%{transform:rotateY(6deg);}100%{transform:rotateY(-6deg);}}
-  @keyframes heroLegs{0%{height:74px;}25%{height:92px;}50%{height:104px;}75%{height:92px;}100%{height:74px;}}
-  @keyframes heroShadow{0%{transform:translateX(-50%) scale(1);opacity:.85;}50%{transform:translateX(-50%) scale(.84);opacity:.6;}100%{transform:translateX(-50%) scale(1);opacity:.85;}}
+  .hero__cta{animation:none;}
 }
   </style>
   <script>
@@ -881,114 +838,95 @@ body{background:var(--mat);color:var(--ink);font-family:var(--sans);-webkit-font
 
 </script>
 </head>
-<body>
-  <div class="site">
-    <!-- FULL-SCREEN HERO -->
-    <section class="hero hero--splash">
-      <header class="hd hero__hd">
-        <a class="brand" href="index.html">Furniture Factory</a>
-        <nav class="nav">
-          <a href="customise.html">Customise</a>
-          <a href="#why">Why Us</a>
-        </nav>
-        <div class="tools">
-          <a class="iconbtn" href="customise.html" aria-label="Cart">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.4 12.4a1.6 1.6 0 0 0 1.6 1.3h8.2a1.6 1.6 0 0 0 1.6-1.3L22 7H6"/></svg>
-            <span class="cartcount" id="cartCount" hidden>0</span>
-          </a>
-        </div>
-      </header>
+<body data-page="home">
+  <div class="site site--home">
+    <header class="hd site-nav" id="siteNav" data-chrome-nav></header>
 
+    <div class="hero-scroll-zone" id="heroScrollZone">
+    <section class="hero hero--splash" id="heroSplash">
       <div class="hero__stage">
-        <div class="scene">
-          <div class="scene__floor"></div>
-          <div class="scene__shadow"></div>
-          <button class="desk-hit" id="deskHit" type="button" aria-label="Customise your standing desk">
-            <div class="desk" style="width:408px">
-              <div class="top" style="width:408px">
-                <div class="top__surface" style="background:linear-gradient(180deg,#d8b27f,#c19764)"><span class="grain"></span></div>
-                <div class="top__edge" style="background:linear-gradient(180deg,#c69e68,#a17d4b)"><span class="grain"></span></div>
-              </div>
-              <div class="frame" style="width:302px">
-                <div class="frame__beam" style="background:linear-gradient(180deg,#3a3a34,#181811)"></div>
-                <div class="frame__legs">
-                  <div class="leg"><div class="leg__upper" style="background:linear-gradient(90deg,#222219,#3a3a32,#181811)"></div><div class="leg__lower" style="background:linear-gradient(90deg,#181811,#303029,#101009)"></div><div class="leg__foot" style="background:linear-gradient(180deg,#2c2c25,#131310)"></div></div>
-                  <div class="leg"><div class="leg__upper" style="background:linear-gradient(90deg,#222219,#3a3a32,#181811)"></div><div class="leg__lower" style="background:linear-gradient(90deg,#181811,#303029,#101009)"></div><div class="leg__foot" style="background:linear-gradient(180deg,#2c2c25,#131310)"></div></div>
-                </div>
-                <div class="motor" style="left:12%;width:32px"><span class="motor__dot" style="right:5px"></span></div>
-                <div class="motor" style="right:12%;width:32px"><span class="motor__dot" style="left:5px"></span></div>
-              </div>
-            </div>
-          </button>
-          <div class="hero__dims"><b>140</b> &times; <b>60</b> cm &middot; adjusts 72&ndash;122 cm</div>
+        <div class="hero__intro" id="heroIntro">
+          <h1 class="hero__title">Furniture Factory</h1>
+          <p class="hero__tagline">Elevated experience, exceptional value.</p>
+          <a class="hero__cta" href="customise.html">Start customising</a>
         </div>
-        <div class="hero__side">
-          <span><b></b>Factory<br>Direct</span>
-          <span><b></b>Sit ·<br>Stand</span>
-          <span><b></b>Made to<br>Order</span>
-        </div>
-        <div class="hero__cap">The Standing Desk</div>
-        <span class="hero__open">Customise
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </span>
       </div>
 
       <a class="hero__scroll" href="#discover">Scroll
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       </a>
     </section>
+    </div><!-- /.hero-scroll-zone -->
 
-    <div class="site-body">
-    <div class="ribbon">Quality products, factory direct — straight to your door</div>
+    <div class="site-body site-body--wood">
+    <div class="wood-bg" aria-hidden="true"></div>
+    <div class="content-stack">
 
-    <!-- BAND -->
-    <section class="band" id="discover">
-      <div class="band__copy">
-        <p class="eyebrow">One desk · Built your way</p>
-        <h2>Factory floor to your floor.</h2>
-        <p class="lede">Premium sit-stand desks — minus the showroom markup, so you pay for the desk, not the price tag.</p>
-        <div class="cta-row">
-          <a class="cta" href="customise.html">Customise Yours
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <span class="price">From <b>$399</b><i>SGD</i></span>
+    <!-- BAND — editorial card -->
+    <section class="band editorial-card glass glass--readable glass--shimmer glass-panel glass-reveal" id="discover">
+      <p class="band__tagline">Quality products, factory direct, straight to your door</p>
+      <div class="glass-panel__inner">
+        <div class="glass-panel__copy band__copy editorial-copy">
+          <p class="eyebrow">One desk · Built your way</p>
+          <h2>Factory floor to your floor.</h2>
+          <p class="lede">Premium sit-stand desks, minus the showroom markup, so you pay for the desk, not the price tag.</p>
+          <div class="cta-row">
+            <a class="cta" href="customise.html">Customise Yours
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <span class="price">From <b>$399</b><i>SGD</i></span>
+          </div>
         </div>
-      </div>
-      <div class="specs">
-        <div class="spec"><b>72–122</b><span>Height cm</span></div>
-        <div class="spec"><b>125 kg</b><span>Dual-motor lift</span></div>
-        <div class="spec"><b>10 yr</b><span>Frame warranty</span></div>
+        <div class="glass-panel__aside specs">
+          <div class="specs-inner">
+            <div class="spec"><b>72–122</b><span>Height cm</span></div>
+            <div class="spec"><b>125 kg</b><span>Dual-motor lift</span></div>
+            <div class="spec"><b>10 yr</b><span>Frame warranty</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- VALUES -->
-    <section class="values" id="why">
-      <div class="value">
-        <span class="num">01</span>
-        <h3>Factory direct</h3>
-        <p>No showrooms, no middlemen. You buy the desk at close to what it costs us to make it.</p>
+    <section class="values values--editorial" id="why">
+      <div class="value editorial-card glass glass--readable glass--shimmer glass-panel glass-reveal">
+        <div class="glass-panel__inner glass-panel__inner--single">
+          <div class="editorial-copy">
+            <p class="eyebrow">01</p>
+            <h3>Factory direct</h3>
+            <p>No showrooms, no middlemen. You buy the desk at close to what it costs us to make it.</p>
+          </div>
+        </div>
       </div>
-      <div class="value">
-        <span class="num">02</span>
-        <h3>Free delivery &amp; assembly</h3>
-        <p>We deliver across Singapore and assemble your desk in your space — at no extra cost.</p>
+      <div class="value editorial-card glass glass--readable glass--shimmer glass-panel glass-reveal">
+        <div class="glass-panel__inner glass-panel__inner--single">
+          <div class="editorial-copy">
+            <p class="eyebrow">02</p>
+            <h3>Free delivery &amp; assembly</h3>
+            <p>We deliver across Singapore and assemble your desk in your space, at no extra cost.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- CLOSER -->
-    <section class="closer">
-      <p class="eyebrow">Made to order</p>
-      <h2>Build the desk that fits your room.</h2>
-      <a class="cta cta--light" href="customise.html">Start Customising
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+    <section class="closer editorial-card glass glass--readable glass--shimmer glass-panel glass-reveal">
+      <div class="glass-panel__inner glass-panel__inner--single">
+        <div class="editorial-copy">
+          <p class="eyebrow">Made to order</p>
+          <h2>Build the desk that fits your room.</h2>
+          <div class="cta-row">
+            <a class="cta" href="customise.html">Start Customising
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <footer class="foot">
-      <a class="brand" href="index.html">Furniture Factory</a>
-      <span class="foot__c">© 2026 · Factory direct · Singapore</span>
-    </footer>
+    </div><!-- /.content-stack -->
     </div>
+    <footer class="hd site-foot" id="footer" data-chrome-foot></footer>
   </div>
 
   <script>
@@ -998,18 +936,13 @@ body{background:var(--mat);color:var(--ink);font-family:var(--sans);-webkit-font
       var el=document.getElementById('cartCount');
       if(el && n>0){ el.textContent=n; el.hidden=false; }
 
-      // click the desk → pulse → go to customise
-      var desk=document.getElementById('deskHit');
-      var go=function(){
-        if(!desk||desk.classList.contains('is-leaving')) return;
-        desk.classList.add('is-leaving');
-        var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        setTimeout(function(){ window.location.href='customise.html'; }, reduce?0:360);
-      };
-      if(desk){
-        desk.addEventListener('click', go);
-      }
     })();
   </script>
+  <script src="/shared-site-chrome.js"></script>
+  <script src="/shared-cart.js"></script>
+  <script src="/shared-nav.js"></script>
+  <script src="/shared-contact-fab.js"></script>
+  <script src="/home-hero-scroll.js"></script>
+  <script src="/shared-scroll.js"></script>
 </body>
 </html>

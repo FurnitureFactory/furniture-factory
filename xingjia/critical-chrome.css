@@ -1,0 +1,15 @@
+/* Minimal nav shell — loads before shared.css; safe on Android / in-app browsers */
+.site-nav{position:sticky;top:0;z-index:100;background:#262c16;color:#f4efe6}
+.site-nav a,.site-foot a,.crumbs a{text-decoration:none}
+.site-nav a,.site-nav .brand{color:#f4efe6}
+.crumbs a{color:inherit}
+.site-nav .nav__short{display:none}
+@media(max-width:820px){
+  .site-nav.hd{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-items:center;gap:8px 10px;padding:8px 16px}
+  .site-nav .brand__text{display:none}
+  .site-nav .brand__mark{display:inline-flex}
+  .site-nav .tools{grid-column:2;grid-row:1;justify-self:end}
+  .site-nav .nav{grid-column:1/-1;grid-row:2;display:flex;flex-wrap:nowrap;gap:10px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%;max-width:100%}
+  .site-nav .nav .nav__long{display:none}
+  .site-nav .nav .nav__short{display:inline}
+}

@@ -3,12 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Furniture Factory — Customise your standing desk</title>
-  <meta name="description" content="Build your standing desk — choose motor, frame colour, wood top, size and edge. Live preview and pricing in SGD." />
+  <title>Furniture Factory | Customise your standing desk</title>
+  <meta name="description" content="Build your standing desk: choose motor, frame colour, wood top, size and edge. Live preview and pricing in SGD." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%235f6b39' width='32' height='32' rx='4'/%3E%3Cpath fill='%23f4efe6' d='M11 20A7 7 0 0 1 4 13c0-5 4.5-9 16-9-1 8-5 13-9 16Z'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/critical-chrome.css" />
+  <link rel="stylesheet" href="/shared.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+    }
+  }
+  </script>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js" />
+  <script type="module">
+  try {
+    await import("./desk-preview-3d.js");
+  } catch (err) {
+    console.error("desk-preview-3d failed", err);
+    window.dispatchEvent(new Event("desk3d-error"));
+  }
+  </script>
   <style>
 :root{
   --backdrop:#d4d0c5;
@@ -34,113 +53,197 @@
 }
 *{box-sizing:border-box;}
 html,body{margin:0;}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+body{background:#f6f4f0;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
   padding:0;min-height:100vh;}
 button{font-family:var(--sans);cursor:pointer;}
 ::selection{background:var(--olive);color:#fff;}
 
-/* full-width site shell */
-.site{max-width:none;width:100%;margin:0;position:relative;background:var(--paper);}
+/* page lead + layout shell */
+.site.site--customise{display:flex;flex-direction:column;min-height:100dvh;padding-bottom:calc(var(--site-foot-h,58px) + 4px);}
+.site.site--customise > .page-lead{flex-shrink:0;}
+.site.site--customise > .wrap{
+  flex:1;
+  padding-bottom:24px;align-items:start;
+}
 
-/* ribbon */
-.promo{text-align:center;font-size:9.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--muted);padding:11px;border-bottom:1px solid var(--line);background:none;}
+/* layout — preview | options */
+.wrap{padding:0 0 48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px);gap:20px 28px;align-items:start;max-width:none;margin:0;}
+.config-summary .editorial-copy{padding:24px 22px;}
+.config-summary__h{margin:0 0 16px;font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink);line-height:1.1;}
+.config-summary__list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+.config-summary__item{display:flex;flex-direction:column;gap:2px;padding-bottom:10px;border-bottom:1px solid rgba(67,57,36,.1);}
+.config-summary__item:last-child{border-bottom:none;padding-bottom:0;}
+.config-summary__label{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);}
+.config-summary__val{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;}
+.config-summary__price{margin-top:18px;padding-top:16px;border-top:1px solid rgba(67,57,36,.12);}
+.config-summary__price dt{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin:0 0 4px;}
+.config-summary__price dd{margin:0;font-family:var(--serif);font-size:28px;font-weight:500;color:var(--ink);}
+.config-summary__hint{margin:14px 0 0;font-size:11px;line-height:1.5;color:var(--ink-2);font-weight:500;}
+.customise-aside{display:flex;flex-direction:column;gap:20px;min-width:0;}
+.stage{position:sticky;top:var(--preview-sticky-top,68px);align-self:start;z-index:2;width:100%;min-width:0;max-width:100%;}
 
-/* header */
-.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:19px 30px;
-  border-bottom:1px solid var(--line);position:static;background:none;box-shadow:none;height:auto;}
-.brand{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
-  text-decoration:none;color:var(--ink);white-space:nowrap;display:flex;align-items:center;}
-.brand__mark{display:none;}
-.brand__name{font-family:var(--serif);font-weight:500;font-size:23px;letter-spacing:.22em;text-transform:uppercase;line-height:1;}
-.brand__name small{display:none;}
-.nav{display:flex;gap:26px;}
-.nav a{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
-  text-decoration:none;transition:color .15s;}
-.nav a:hover,.nav a.active{color:var(--olive);}
-.cart{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line-2);
-  border-radius:0;padding:11px 17px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--ink);box-shadow:none;transition:border-color .15s,color .15s;}
-.cart:hover{border-color:var(--olive);color:var(--olive);}
-.cart__count{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;border-radius:99px;
-  background:var(--olive);color:#fff;font-size:10px;font-weight:700;}
+/* framed live preview — height + sticky top synced in customise-preview-scroll.js */
+.viewer{position:relative;display:flex;flex-direction:column;height:var(--preview-height,min(720px,calc(100dvh - var(--site-foot-h,58px) - var(--preview-gap,14px)*2 - 72px)));min-height:420px;max-height:720px;width:100%;max-width:100%;
+  border:none;background:linear-gradient(165deg,rgba(255,255,255,.94) 0%,rgba(246,244,240,.86) 100%);backdrop-filter:blur(22px) saturate(.95);-webkit-backdrop-filter:blur(22px) saturate(.95);
+  padding:16px;overflow:hidden;border-radius:20px;box-sizing:border-box;
+  box-shadow:0 10px 36px rgba(40,34,18,.06),inset 0 1px 0 rgba(255,255,255,.85);}
+.viewer__head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-shrink:0;margin-bottom:12px;padding:0 2px;}
+.viewer__tag{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);}
+.viewer__meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right;min-width:0;}
+.viewer__hint{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;}
+.viewer__price{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;}
+.viewer__price b{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink);margin-right:4px;}
+.viewer__body{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:0;}
+.viewer__topbar{display:block;flex-shrink:0;margin-bottom:10px;padding:0;width:100%;}
+.viewer__topbar .viewer__toolbar{margin:0;width:100%;}
+.scene{position:relative;width:100%;flex:1;min-height:280px;overflow:hidden;border-radius:14px;
+  background:transparent;touch-action:none;user-select:none;
+  display:flex;align-items:center;justify-content:center;}
+.scene--drag{cursor:grab;}
+.scene--dragging{cursor:grabbing;}
+.scene--3d{position:relative;flex:1;min-height:280px;width:100%;}
+.desk-stage{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;box-sizing:border-box;}
+.desk-stage--3d{position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;padding:0;}
+.desk-canvas{position:absolute;inset:0;width:100%;height:100%;min-height:200px;overflow:hidden;border-radius:14px;pointer-events:auto;touch-action:none;}
+.desk-canvas canvas{display:block;position:absolute;inset:0;width:100%!important;height:100%!important;touch-action:none;cursor:grab;outline:none;}
+.desk-canvas canvas:active{cursor:grabbing;}
+.desk-preview-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;pointer-events:none;
+  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+.desk-v{position:relative;display:flex;flex-direction:column;align-items:center;margin:0 auto;filter:drop-shadow(0 14px 12px rgba(40,34,18,.14));}
+.desk-v__shadow{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);height:10px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(40,34,18,.22),transparent 72%);filter:blur(5px);pointer-events:none;}
+.desk-v__top{width:100%;position:relative;z-index:2;}
+.desk-v__face{width:100%;position:relative;overflow:hidden;border-radius:3px 3px 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 1px 0 rgba(67,57,36,.08);}
+.desk-v__face.is-curve{border-radius:10px 10px 2px 2px;}
+.desk-v__grain{position:absolute;inset:0;pointer-events:none;opacity:.85;}
+.desk-v__edge{width:100%;position:relative;overflow:hidden;
+  box-shadow:0 4px 10px -6px rgba(40,34,18,.35),inset 0 -1px 0 rgba(0,0,0,.1);}
+.desk-v__edge.is-plywood::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,rgba(255,255,255,.16) 1px 4px);opacity:.55;}
+.desk-v__frame-wrap{width:100%;display:flex;justify-content:center;}
+.desk-v__frame{position:relative;z-index:1;margin-top:-1px;display:flex;flex-direction:column;align-items:stretch;flex:none;}
+.desk-v__beam{width:100%;border-radius:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 2px 4px rgba(40,34,18,.18);}
+.desk-v__legs{position:relative;width:100%;margin-top:-1px;}
+.desk-v__leg{position:absolute;bottom:0;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);}
+.desk-v__upper{border-radius:2px 2px 0 0;
+  box-shadow:inset 1px 0 0 rgba(255,255,255,.18),inset -1px 0 0 rgba(0,0,0,.1);}
+.desk-v__lower{border-radius:0;
+  box-shadow:inset 1px 0 0 rgba(255,255,255,.14),inset -1px 0 0 rgba(0,0,0,.12);}
+.desk-v__foot{border-radius:2px;margin-top:1px;
+  box-shadow:0 5px 8px -4px rgba(40,34,18,.45),inset 0 1px 0 rgba(255,255,255,.12);}
+.desk-v__motor{position:absolute;top:0;height:14px;border-radius:2px;
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(40,34,18,.12));box-shadow:0 1px 2px rgba(40,34,18,.15);}
+.desk-v__motor-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--oak);top:5px;}
+.desk-v--top .desk-v__face{border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 8px 20px -8px rgba(40,34,18,.25);}
+.desk-v--top .desk-v__edge{display:none;}
+.desk-v--side{align-items:stretch;}
+.desk-v--side .desk-v__top{width:100%;}
+.desk-v--side .desk-v__face{border-radius:3px 3px 0 0;}
+.preview-tween,.preview-tween *{transition:width .45s var(--ease),height .45s var(--ease),background .35s var(--ease),border-radius .35s var(--ease);}
+.viewer__toolbar{position:relative;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px;width:100%;flex-shrink:0;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:10px;
+  box-shadow:0 2px 12px rgba(40,34,18,.05);border:1px solid rgba(67,57,36,.06);}
+.viewer__viewbtn{appearance:none;border:1px solid transparent;background:transparent;color:var(--ink-2);
+  font-family:var(--sans);font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:9px 8px;border-radius:8px;cursor:pointer;
+  width:100%;text-align:center;
+  transition:background .15s,color .15s,border-color .15s;}
+.viewer__viewbtn:hover{color:var(--ink);background:rgba(255,255,255,.6);}
+.viewer__viewbtn.on{color:var(--olive-d);background:#fff;border-color:rgba(95,107,57,.25);}
+.scene__dims{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);z-index:5;text-align:center;pointer-events:none;
+  font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ink-2);transition:opacity .35s var(--ease);
+  padding:7px 14px;max-width:calc(100% - 20px);background:rgba(252,249,243,.94);border:1px solid rgba(67,57,36,.1);
+  border-radius:8px;box-shadow:0 2px 10px rgba(40,34,18,.06);white-space:nowrap;}
+.scene__dims b{color:var(--ink);font-weight:700;}
+/* your build — floated inside 3D preview */
+.build-overlay{
+  position:absolute;left:10px;top:10px;bottom:auto;z-index:6;
+  max-width:min(272px,calc(100% - 20px));max-height:calc(100% - 20px);
+  display:flex;flex-direction:column;pointer-events:none;
+  transition:opacity .25s var(--ease),transform .25s var(--ease);
+}
+.build-overlay.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-6px);}
+.build-overlay .editorial-copy{
+  flex:0 1 auto;display:flex;flex-direction:column;min-height:0;pointer-events:auto;
+  padding:12px 14px 10px;
+  background:rgba(252,249,243,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(67,57,36,.1);border-radius:12px;box-shadow:0 8px 28px rgba(40,34,18,.12);
+}
+.build-overlay__head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-shrink:0;}
+.build-overlay .config-summary__h{margin:0;font-size:16px;line-height:1.1;}
+.build-overlay__toggle{
+  appearance:none;border:none;background:transparent;
+  width:22px;height:22px;border-radius:6px;display:grid;place-items:center;padding:0;
+  color:var(--muted);cursor:pointer;flex:none;opacity:.55;
+  transition:opacity .15s,background .15s,color .15s;
+}
+.build-overlay__toggle:hover{opacity:1;background:rgba(67,57,36,.06);color:var(--ink-2);}
+.build-overlay__toggle svg{display:block;opacity:.9;}
+.build-overlay .config-summary__list{display:contents;}
+.build-overlay__body{
+  flex:0 1 auto;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;
+  align-content:start;min-height:0;
+}
+.build-overlay .config-summary__item{padding-bottom:0;border-bottom:none;min-width:0;}
+.build-overlay .config-summary__label{font-size:7.5px;letter-spacing:.14em;}
+.build-overlay .config-summary__val{font-size:11px;line-height:1.25;}
+.build-overlay .config-summary__price{
+  margin-top:8px;padding-top:8px;grid-column:1/-1;
+  border-top:1px solid rgba(67,57,36,.1);
+}
+.build-overlay .config-summary__price dt{margin-bottom:2px;}
+.build-overlay .config-summary__price dd{font-size:19px;}
+.build-overlay .config-summary__hint{margin-top:8px;font-size:9px;line-height:1.4;grid-column:1/-1;display:none;}
+.build-overlay-tab{
+  position:absolute;left:12px;top:12px;z-index:6;pointer-events:auto;
+  appearance:none;border:1px solid rgba(67,57,36,.12);background:rgba(252,249,243,.96);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:999px;padding:8px 14px;font-family:var(--sans);font-size:9px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);cursor:pointer;
+  box-shadow:0 4px 16px rgba(40,34,18,.1);transition:background .15s,color .15s,border-color .15s;
+}
+.build-overlay-tab:hover{background:#fff;color:var(--ink);border-color:rgba(67,57,36,.18);}
+.desk-canvas{z-index:3;}
+.build-overlay,.build-overlay-tab{z-index:8;}
+.scene--3d.scene--desk-front .desk-canvas{z-index:7;}
+.scene--3d.scene--desk-front .build-overlay,.scene--3d.scene--desk-front .build-overlay-tab{z-index:8;}
 
-/* intro */
-.intro{padding:34px 38px 6px;max-width:none;margin:0;}
-.crumbs{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
-.crumbs span{color:var(--olive);}
-.intro h1{font-family:var(--serif);font-weight:400;font-size:46px;letter-spacing:.005em;margin:12px 0 8px;line-height:1.02;}
-.intro p{margin:0;font-size:14.5px;line-height:1.66;color:var(--ink-2);max-width:64ch;}
+/* panel — options glass card */
+.customise-aside .panel.glass-panel{padding:24px 26px 22px;}
+.panel{padding:24px 26px 22px;flex-shrink:0;}
+.customise-aside .summary{margin-top:0;padding:0;flex-shrink:0;}
+.section{padding:0 0 24px;margin:0 0 24px;border-bottom:none;}
+.section:last-of-type{margin-bottom:0;padding-bottom:0;}
+.section__title{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.01em;margin:0 0 8px;color:var(--ink);}
+.section__title .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--olive);
+  color:#f4efe6;font-family:var(--sans);font-size:11px;font-weight:700;}
+.section__note{margin:0 0 18px;font-size:12.5px;line-height:1.55;color:var(--ink-2);font-weight:500;}
 
-/* layout */
-.wrap{padding:24px 38px 48px;display:grid;grid-template-columns:1fr 400px;gap:44px;align-items:start;max-width:none;margin:0;}
-.stage{position:sticky;top:0;}
-
-/* framed live preview (white mat, matches landing hero) */
-.viewer{position:relative;height:calc(100vh - 60px);min-height:560px;max-height:900px;border:1px solid var(--line-2);background:var(--mat);padding:0;overflow:visible;border-radius:0;
-  box-shadow:inset 0 0 0 12px var(--mat), inset 0 0 0 13px rgba(67,57,36,.16), 0 18px 40px -26px rgba(40,34,18,.5);}
-.viewer__tag{position:absolute;top:24px;left:26px;z-index:3;font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-.viewer__price{position:absolute;top:21px;right:26px;z-index:3;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);}
-.viewer__price b{font-family:var(--serif);font-size:21px;font-weight:500;color:var(--ink);margin-right:5px;}
-.scene{position:absolute;inset:13px;display:flex;align-items:center;justify-content:center;padding:0 0 26px;overflow:hidden;
-  background:linear-gradient(180deg,#efeae0 0%,#e7e0d2 100%);}
-.scene__floor{display:none;}
-.scene__shadow{display:none;}
-.desk{position:relative;transition:width .42s var(--ease);transform:scale(1.12);transform-origin:center center;
-  filter:drop-shadow(0 26px 20px rgba(40,34,18,.22));}
-.top{position:relative;transition:width .42s var(--ease);}
-.top__surface{height:24px;transform:perspective(900px) rotateX(34deg);transform-origin:bottom center;
-  transition:width .42s var(--ease),height .42s var(--ease);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(67,57,36,.2);}
-.top__edge{height:20px;position:relative;overflow:hidden;box-shadow:0 14px 24px -12px rgba(67,57,36,.5),inset 0 -1px 2px rgba(0,0,0,.15);}
-.top__edge.is-plywood::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0 1px,rgba(255,255,255,.18) 1px 4px);opacity:.6;}
-.top.is-curve .top__surface{border-radius:10px 10px 4px 4px;}
-.top.is-curve .top__edge{border-radius:0 0 13px 13px;}
-.frame{position:relative;margin:0 auto;transition:width .42s var(--ease);}
-.frame__beam{height:11px;border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 4px rgba(67,57,36,.22);}
-.frame__legs{display:flex;justify-content:space-between;padding:0 13%;}
-.leg{display:flex;flex-direction:column;align-items:center;}
-.leg__upper{width:21px;height:78px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.2),inset -1px 0 0 rgba(0,0,0,.12);}
-.leg__lower{width:29px;height:74px;border-radius:2px;box-shadow:inset 1px 0 0 rgba(255,255,255,.16),inset -1px 0 0 rgba(0,0,0,.14);}
-.leg__foot{width:88px;height:9px;border-radius:3px;margin-top:2px;box-shadow:0 6px 10px -5px rgba(67,57,36,.5);}
-.motor{position:absolute;top:-3px;height:15px;border-radius:3px;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(67,57,36,.16));box-shadow:0 1px 2px rgba(67,57,36,.2);}
-.motor__dot{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--oak);top:5px;}
-.scene__dims{position:absolute;bottom:14px;left:0;right:0;z-index:3;text-align:center;transform:none;
-  font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--muted);}
-.scene__dims b{color:var(--ink);}
-
-/* panel */
-.section{padding:0 0 24px;margin:0 0 24px;border-bottom:1px solid var(--line);}
-.section + .section{border-top:none;}
-.section:last-of-type{border-bottom:none;}
-.section__title{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:400;font-size:27px;letter-spacing:.01em;margin:0 0 4px;}
-.section__title .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:0;background:var(--olive);
-  color:#f4efe6;font-family:var(--sans);font-size:12px;font-weight:700;}
-.section__note{margin:0 0 18px;font-size:12.5px;line-height:1.55;color:var(--muted);}
-
-.group{margin:0 0 18px;}
+.group{margin:0 0 20px;}
 .group:last-child{margin-bottom:0;}
-.group__head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px;}
-.group__label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);}
-.group__val{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--olive);}
+.group__head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;gap:12px;}
+.group__label{font-size:10.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);}
+.group__val{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--olive-d);}
 
-.opts{display:grid;gap:8px;}
+.opts{display:grid;gap:12px;}
 .opts--2{grid-template-columns:1fr 1fr;}
 .opts--3{grid-template-columns:repeat(3,1fr);}
-.opt{position:relative;text-align:left;background:var(--surface-2);border:1px solid transparent;border-radius:4px;
-  padding:13px 15px;color:var(--ink);box-shadow:0 1px 2px rgba(67,57,36,.06),0 3px 8px -4px rgba(67,57,36,.13);
-  transition:box-shadow .18s var(--ease),transform .14s var(--ease),background .18s;display:flex;flex-direction:column;gap:3px;}
-.opt:hover{box-shadow:0 4px 10px -3px rgba(67,57,36,.16),0 12px 22px -10px rgba(67,57,36,.2);transform:translateY(-2px);}
-.opt.on{background:var(--olive-soft);transform:translateY(-3px);
-  box-shadow:0 6px 14px -4px rgba(95,107,57,.4),0 18px 32px -12px rgba(95,107,57,.42);}
+.opt{position:relative;text-align:left;background:rgba(255,255,255,.94);
+  border:none;border-radius:12px;
+  padding:15px 17px;color:var(--ink);box-shadow:0 2px 12px rgba(40,34,18,.06);
+  transition:box-shadow .18s var(--ease),transform .14s var(--ease),background .18s;display:flex;flex-direction:column;gap:5px;}
+.opt:hover{box-shadow:0 6px 20px rgba(40,34,18,.09);transform:translateY(-2px);background:#fff;}
+.opt.on{background:#f2f4e8;transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(95,107,57,.16);}
 .opt__check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:99px;background:var(--olive);
   display:none;place-items:center;color:#fff;}
 .opt.on .opt__check{display:grid;}
-.opt__name{font-size:15px;font-weight:700;letter-spacing:-.005em;padding-right:20px;}
-.opt__meta{font-size:11.5px;line-height:1.4;color:var(--muted);font-weight:500;}
-.opt__price{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--olive);margin-top:2px;}
-.opt__price.zero{color:var(--muted);font-weight:600;}
+.opt__name{font-size:15px;font-weight:700;letter-spacing:-.005em;padding-right:22px;color:var(--ink);}
+.opt__meta{font-size:12px;line-height:1.5;color:var(--ink-2);font-weight:500;}
+.opt__price{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--olive-d);margin-top:3px;}
+.opt__price.zero{color:var(--ink-2);font-weight:600;}
 .opt--swatch{flex-direction:row;align-items:center;gap:12px;padding:11px 14px;}
-.swatch{width:30px;height:30px;border-radius:0;flex:none;box-shadow:inset 0 0 0 1px rgba(67,57,36,.18);}
+.swatch{width:30px;height:30px;border-radius:6px;flex:none;box-shadow:none;}
 .opt--swatch .col{display:flex;flex-direction:column;gap:1px;}
 .opt--pill{align-items:center;text-align:center;padding:13px 6px;gap:2px;}
 .opt--pill .opt__name{padding-right:0;font-size:16px;}
@@ -148,36 +251,36 @@ button{font-family:var(--sans);cursor:pointer;}
 .soon{display:inline-block;margin-left:6px;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   color:#7a5a1c;background:#f1e7cf;border-radius:0;padding:2px 5px;vertical-align:middle;}
 
-/* summary */
-.summary{margin-top:0;border:1px solid var(--line-2);border-radius:0;background:var(--surface);padding:24px;box-shadow:none;}
-.summary__h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
-.summary__h h3{margin:0;font-family:var(--serif);font-weight:500;font-size:23px;}
-.summary__h span{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-.bill{display:flex;flex-direction:column;gap:8px;}
-.bill__r{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:13px;}
-.bill__r dt{color:var(--ink-2);font-weight:500;}
-.bill__r dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;}
-.bill__r dd.zero{color:var(--muted);font-weight:600;}
-.bill__rule{height:0;border:0;border-top:1px solid var(--line);margin:14px 0;}
+/* summary — landing glass card */
+.summary .editorial-copy{padding:32px 34px;}
+.summary__h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;gap:12px;}
+.summary__h h3{margin:0;font-family:var(--serif);font-weight:500;font-size:24px;color:var(--ink);}
+.summary__h span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);}
+.bill{display:flex;flex-direction:column;gap:10px;}
+.bill__r{display:flex;align-items:baseline;justify-content:space-between;gap:14px;font-size:13.5px;}
+.bill__r dt{color:var(--ink);font-weight:600;}
+.bill__r dd{margin:0;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+.bill__r dd.zero{color:var(--ink-2);font-weight:600;}
+.bill__rule{height:0;border:0;margin:20px 0;}
 .bill__t{display:flex;align-items:baseline;justify-content:space-between;}
-.bill__t dt{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
-.bill__t dd{margin:0;font-family:var(--serif);font-weight:500;font-size:35px;letter-spacing:.01em;}
-.bill__t dd small{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-left:6px;}
+.bill__t dt{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);}
+.bill__t dd{margin:0;font-family:var(--serif);font-weight:500;font-size:36px;color:var(--ink);letter-spacing:.01em;}
+.bill__t dd small{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-left:6px;}
 
-.btns{margin-top:18px;display:flex;flex-direction:column;gap:9px;}
+.btns{margin-top:20px;display:flex;flex-direction:column;gap:10px;}
 .btn{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;
-  border-radius:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:15px;
-  transition:background .15s,border-color .15s,color .15s,transform .1s;}
-.btn--primary{background:var(--olive);color:#f4efe6;border-color:var(--olive);}
+  border-radius:12px;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:15px 18px;
+  transition:background .15s,border-color .15s,color .15s,transform .1s,box-shadow .15s;}
+.btn--primary{background:var(--olive);color:#fff;border-color:var(--olive);box-shadow:0 2px 8px rgba(95,107,57,.25);}
 .btn--primary:hover{background:var(--olive-d);border-color:var(--olive-d);}
 .btn--primary:active{transform:translateY(1px);}
-.btn--ghost{background:none;color:var(--ink);border-color:var(--line-2);}
-.btn--ghost:hover{border-color:var(--olive);color:var(--olive);}
-.btn--ghost.added{color:var(--forest);border-color:var(--forest);}
-.fine{margin:14px 0 0;text-align:center;font-size:11px;line-height:1.5;color:var(--muted);}
-.assure{margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
-.assure span{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);display:inline-flex;align-items:center;gap:5px;}
-.assure svg{color:var(--olive);}
+.btn--ghost{background:rgba(255,255,255,.7);color:var(--olive-d);border:none;box-shadow:0 2px 10px rgba(40,34,18,.06);}
+.btn--ghost:hover{background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(40,34,18,.08);}
+.btn--ghost.added{color:#2d5a28;background:#f0f5ee;}
+.fine{margin:16px 0 0;text-align:center;font-size:11.5px;line-height:1.55;color:var(--ink-2);font-weight:500;}
+.assure{margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.assure span{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--ink);display:inline-flex;align-items:center;gap:5px;}
+.assure svg{color:var(--olive);flex:none;}
 
 /* toast */
 .toast{position:fixed;right:24px;bottom:24px;z-index:120;background:var(--ink);color:#f3f1e6;border-radius:0;
@@ -187,19 +290,13 @@ button{font-family:var(--sans);cursor:pointer;}
 .toast__t{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
 .toast__b{margin-top:5px;font-size:12.5px;color:rgba(243,241,230,.75);line-height:1.5;}
 
-/* footer */
-.foot{background:none;box-shadow:none;border-top:1px solid var(--line);}
-.foot__in{padding:22px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:none;margin:0;}
-.foot__b{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:500;font-size:15px;letter-spacing:.22em;text-transform:uppercase;}
-.foot__b .brand__mark{display:none;}
-.foot__c{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-
 /* checkout */
 .co{position:fixed;inset:0;z-index:200;display:none;}
 .co.show{display:block;}
-.co__scrim{position:absolute;inset:0;background:rgba(43,42,35,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fade .25s ease both;}
+.co__scrim{position:absolute;inset:0;background:rgba(246,243,236,.52);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fade .25s ease both;}
 .co__sheet{position:absolute;top:0;right:0;height:100%;width:min(940px,100%);display:grid;grid-template-columns:1fr 1fr;
-  background:var(--paper);box-shadow:-30px 0 80px -30px rgba(40,34,18,.5);animation:slide .36s var(--ease) both;}
+  background:rgba(252,249,243,.98);border-left:1px solid rgba(255,255,255,.65);
+  box-shadow:-24px 0 64px rgba(40,34,18,.14);animation:slide .36s var(--ease) both;}
 @keyframes fade{from{opacity:0;}to{opacity:1;}}
 @keyframes slide{from{transform:translateX(40px);opacity:0;}to{transform:translateX(0);opacity:1;}}
 .co__close{position:absolute;top:18px;right:20px;z-index:2;width:36px;height:36px;border:1px solid var(--line-2);border-radius:50%;
@@ -218,15 +315,15 @@ button{font-family:var(--sans);cursor:pointer;}
 .co__line dt small{display:block;color:rgba(238,240,222,.6);font-weight:500;font-size:11.5px;margin-top:3px;letter-spacing:.02em;}
 .co__line dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;}
 .co__total{margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fbf9f0;}
-.co__right{padding:48px 44px;overflow-y:auto;background:var(--paper);}
+.co__right{padding:48px 44px;overflow-y:auto;background:rgba(252,249,243,.95);}
 .co__rh{font-family:var(--serif);font-weight:500;font-size:25px;color:var(--ink);margin:0 0 4px;}
-.co__rsub{font-size:12.5px;color:var(--muted);margin:0 0 24px;}
+.co__rsub{font-size:13px;line-height:1.55;color:var(--ink-2);margin:0 0 24px;}
 .field{margin-bottom:14px;}
-.field__l{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);margin-bottom:7px;}
-.inp{width:100%;border:1px solid var(--line-2);border-radius:0;background:var(--surface);padding:13px 14px;font-size:14px;font-family:var(--sans);color:var(--ink);transition:border-color .15s;}
-.inp::placeholder{color:#a9a395;}
-.inp:focus{outline:none;border-color:var(--olive);}
-.card-grp{border:1px solid var(--line-2);border-radius:0;background:var(--surface);overflow:hidden;}
+.field__l{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:7px;}
+.inp{width:100%;border:1px solid rgba(67,57,36,.22);border-radius:0;background:#fff;padding:13px 14px;font-size:14px;font-family:var(--sans);color:var(--ink);transition:border-color .15s,box-shadow .15s;}
+.inp::placeholder{color:#9a9488;}
+.inp:focus{outline:none;border-color:var(--olive);box-shadow:0 0 0 3px rgba(95,107,57,.12);}
+.card-grp{border:1px solid rgba(67,57,36,.22);border-radius:0;background:#fff;overflow:hidden;}
 .card-grp .inp{border:none;border-radius:0;}
 .card-row{display:flex;border-top:1px solid var(--line-2);}
 .card-row .inp{flex:1;}
@@ -246,10 +343,10 @@ button{font-family:var(--sans);cursor:pointer;}
 .pay:disabled{opacity:.55;cursor:default;}
 .pay__spin{width:16px;height:16px;border-radius:99px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.co__secure{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em;}
-.co__powered{margin-top:18px;text-align:center;font-size:11px;color:var(--muted);letter-spacing:.06em;}
-.co__powered b{color:var(--ink-2);font-weight:700;}
-.co__terms{margin-top:8px;text-align:center;font-size:10.5px;color:#a9a395;line-height:1.5;}
+.co__secure{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11px;color:var(--ink-2);font-weight:600;letter-spacing:.04em;}
+.co__powered{margin-top:18px;text-align:center;font-size:11px;color:var(--ink-2);letter-spacing:.06em;}
+.co__powered b{color:var(--ink);font-weight:700;}
+.co__terms{margin-top:8px;text-align:center;font-size:11px;color:var(--muted);line-height:1.55;}
 .co__done{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;background:var(--paper);}
 .co__done-ic{width:74px;height:74px;border-radius:99px;background:var(--olive);color:#f4efe6;display:grid;place-items:center;animation:pop .4s var(--ease) both;}
 @keyframes pop{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
@@ -257,31 +354,42 @@ button{font-family:var(--sans);cursor:pointer;}
 .co__done p{margin:0;font-size:13.5px;color:var(--ink-2);max-width:40ch;line-height:1.65;}
 .co__done .pay{max-width:240px;margin-top:28px;}
 
+@media(max-width:1180px){
+  .wrap{grid-template-columns:minmax(0,1fr) minmax(320px,380px);}
+}
+@media(min-width:981px){
+  .stage{position:sticky;top:var(--preview-sticky-top,68px);}
+}
 @media(max-width:980px){
-  .wrap{grid-template-columns:1fr;gap:24px;padding:18px 18px 36px;}
-  .stage{position:static;}
-  .viewer{height:auto;min-height:0;max-height:none;aspect-ratio:4/3;}
-  .intro{padding:24px 18px 4px;}
-  .intro h1{font-size:36px;}
+  .site.site--customise > .wrap{height:auto;max-height:none;}
+  .wrap{grid-template-columns:1fr;gap:24px;padding-bottom:24px;}
+  .customise-aside{gap:16px;max-height:none;overflow:visible;}
+  .stage{position:relative;top:auto;height:auto;max-height:none;}
+  .viewer{height:auto;min-height:0;max-height:none;aspect-ratio:4/3;padding:14px;border-radius:18px;}
+  .scene{min-height:240px;}
   .co__sheet{grid-template-columns:1fr;overflow-y:auto;}
 }
 @media(max-width:600px){
-  .hd{padding:14px 16px;}
-  .nav{display:none;}
-  .intro,.wrap,.foot__in{padding-left:16px;padding-right:16px;}
-  .intro{padding-top:20px;}
-  .intro h1{font-size:30px;margin-top:8px;}
-  .intro p{font-size:14px;}
-  .wrap{padding:16px 16px 32px;gap:20px;}
+  .wrap{gap:28px;padding-bottom:36px;}
   .viewer{aspect-ratio:1/1;}
+  .viewer__head{flex-wrap:wrap;}
+  .viewer__meta{align-items:flex-start;text-align:left;}
+  .viewer__price b{font-size:20px;}
+  .build-overlay{left:8px;top:8px;bottom:8px;max-width:calc(100% - 16px);max-height:calc(100% - 16px);}
+  .build-overlay__head{align-items:flex-start;}
+  .build-overlay__price{font-size:19px;}
   .section{padding-bottom:18px;margin-bottom:18px;}
   .section__title{font-size:23px;}
-  .summary{padding:18px;}
+  .customise-aside .panel.glass-panel,
+  .summary .editorial-copy{padding:22px 20px;}
   .co__left,.co__right{padding:34px 24px;}
 }
 @media(prefers-reduced-motion:no-preference){
   .section{animation:rise .5s var(--ease) both;}
   @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+}
+@media(prefers-reduced-motion:reduce){
+  .desk-spin,.preview-tween,.preview-tween *{transition:none!important;}
 }
   </style>
   <script>
@@ -934,10 +1042,10 @@ button{font-family:var(--sans);cursor:pointer;}
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
-<body>
+<body data-page="customise">
   <div id="root"></div>
   <script type="text/babel" data-presets="react">
-const { useState, useEffect, useRef } = React;
+const { useState, useEffect, useRef, useLayoutEffect } = React;
 
 /* ── catalogue (from the SKU sheet) · prices in SGD ── */
 const FRAME_MOTOR = [
@@ -959,9 +1067,9 @@ const TOP_COLOUR = [
   { id:"Olive",      name:"Olive Green",  add:40, swatch:"linear-gradient(135deg,#6c7444,#4c5530)", surface:"linear-gradient(180deg,#6e7646,#525b32)", edge:"linear-gradient(180deg,#5a6238,#3f4727)", grain:"rgba(30,34,14,.14)" },
 ];
 const TOP_LENGTH = [
-  { id:"120cm", name:"120", add:0,  px:296 },
-  { id:"140cm", name:"140", add:40, px:344 },
-  { id:"160cm", name:"160", add:80, px:392 },
+  { id:"120cm", name:"120", add:0 },
+  { id:"140cm", name:"140", add:40 },
+  { id:"160cm", name:"160", add:80 },
 ];
 const TOP_BREADTH = [
   { id:"50cm", name:"50", add:0,  depth:.8, soon:true },
@@ -971,6 +1079,67 @@ const TOP_EDGE = [
   { id:"Flat",          name:"Flat",          meta:"Square machined edge.", add:0 },
   { id:"Curve etched",  name:"Curve etched",  meta:"Hand-radiused & etched profile.", add:60, soon:true },
 ];
+const TOP_THICKNESS = [
+  { id:"18mm", name:"18", add:0,  edgePx:12, surfacePx:7 },
+  { id:"25mm", name:"25", add:0,  edgePx:17, surfacePx:8 },
+  { id:"36mm", name:"36", add:55, edgePx:25, surfacePx:9 },
+];
+
+/* preview scale: real cm/mm → px (140 cm top ≈ 344 px wide in viewport) */
+const PX_PER_CM = 344 / 140;
+/* Interdesk™ reference geometry — frame fits under top, 60 cm foot base (70 cm dual on 140+ cm) */
+const INTERDESK = {
+  FRAME_INSET_CM: 8,
+  FOOT_BASE_CM: 60,
+  FOOT_BASE_DUAL_CM: 70,
+  BEAM_H_CM: 4.2,
+  BEAM_D_CM: 6.5,
+  LEG_UPPER_H_CM: 40,
+  LEG_LOWER_H_CM: 36,
+  LEG_UPPER_W_CM: 5.2,
+  LEG_LOWER_W_CM: 7.4,
+  LEG_FOOT_H_CM: 2.8,
+  LEG_FOOT_D_CM: 3.5,
+  MOTOR_W_CM: 8.5,
+  LEG_INSET: 0.12,
+};
+const cmPx = (cm) => Math.round(cm * PX_PER_CM);
+
+function calcDeskLayout(sel){
+  const length=TOP_LENGTH.find(l=>l.id===sel.length)||TOP_LENGTH[0];
+  const breadth=TOP_BREADTH.find(b=>b.id===sel.breadth)||TOP_BREADTH[1];
+  const thick=TOP_THICKNESS.find(t=>t.id===sel.thickness)||TOP_THICKNESS[1];
+  const isDual=sel.motor==="Dual Motor";
+  const lengthCm=parseInt(length.name,10);
+  const breadthCm=parseInt(breadth.name,10);
+  const thickMm=parseInt(thick.name,10);
+
+  const topW=cmPx(lengthCm);
+  const frameLengthCm=Math.max(lengthCm-INTERDESK.FRAME_INSET_CM*2,lengthCm*.86);
+  const frameW=cmPx(frameLengthCm);
+  const footBaseCm=isDual&&lengthCm>=140?INTERDESK.FOOT_BASE_DUAL_CM:INTERDESK.FOOT_BASE_CM;
+  const legFootCm=Math.min(footBaseCm,breadthCm*.97);
+
+  const topThickPx=Math.max(5,Math.round((thickMm/10)*PX_PER_CM));
+  const surfaceH=Math.max(2,Math.round(topThickPx*.32));
+  const edgeH=Math.max(3,topThickPx-surfaceH);
+  const beamH=cmPx(INTERDESK.BEAM_H_CM);
+  const legUpperH=cmPx(INTERDESK.LEG_UPPER_H_CM);
+  const legLowerH=cmPx(INTERDESK.LEG_LOWER_H_CM);
+  const legUpperW=cmPx(INTERDESK.LEG_UPPER_W_CM);
+  const legLowerW=cmPx(INTERDESK.LEG_LOWER_W_CM);
+  const legFootFrontW=cmPx(Math.max(INTERDESK.LEG_LOWER_W_CM,INTERDESK.LEG_FOOT_D_CM*2));
+  const legFootSideW=cmPx(legFootCm);
+  const legFootH=cmPx(INTERDESK.LEG_FOOT_H_CM);
+  const motorW=cmPx(INTERDESK.MOTOR_W_CM);
+
+  return{
+    topW,edgeH,surfaceH,frameW,beamH,
+    legFootFrontW,legFootSideW,legFootH,legUpperW,legLowerW,legUpperH,legLowerH,
+    motorW,legInset:INTERDESK.LEG_INSET,lengthCm,breadthCm,thick,length,breadth,
+  };
+}
+
 const FRAME_SWATCH = {
   Black:{ beam:"linear-gradient(180deg,#3a3a34,#181811)", upper:"linear-gradient(90deg,#222219,#3a3a32,#181811)", lower:"linear-gradient(90deg,#181811,#303029,#101009)", foot:"linear-gradient(180deg,#2c2c25,#131310)" },
   White:{ beam:"linear-gradient(180deg,#faf9f3,#dddbd0)", upper:"linear-gradient(90deg,#e3e1d6,#fbfaf4,#d8d6cb)", lower:"linear-gradient(90deg,#d8d6cb,#f1efe7,#ceccc1)", foot:"linear-gradient(180deg,#eeece4,#d3d1c6)" },
@@ -983,56 +1152,225 @@ const Lock = ({s=13}) => (<svg width={s} height={s} viewBox="0 0 24 24" fill="no
 const X = () => (<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>);
 /* simple leaf mark for the brand */
 const Leaf = ({s=24}) => (<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-5 4.5-9 16-9-1 8-5 13-9 16Z"/><path d="M4 20c2-4 5-7 9-9"/></svg>);
+const DeskIcon = ({s=20}) => (<svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="8" width="18" height="2.5" rx="0.5" fill="currentColor" stroke="none"/><path d="M6 10.5v9M18 10.5v9"/></svg>);
 
-/* ── live desk preview ── */
-function DeskPreview({ sel }){
-  const colour=TOP_COLOUR.find(c=>c.id===sel.topColour)||TOP_COLOUR[0];
-  const length=TOP_LENGTH.find(l=>l.id===sel.length);
-  const breadth=TOP_BREADTH.find(b=>b.id===sel.breadth);
-  const fs=FRAME_SWATCH[sel.frameColour];
-  const isPlywood=sel.material==="Plywood";
-  const isCurve=sel.edge==="Curve etched";
-  const isDual=sel.motor==="Dual Motor";
-  const topW=length.px;
-  const surfaceH=24*breadth.depth+6;
-  const frameW=topW*.74;
-  const grain={backgroundImage:`repeating-linear-gradient(91deg,${colour.grain} 0 1px,transparent 1px 7px),repeating-linear-gradient(89deg,${colour.grain} 0 1px,transparent 1px 13px)`};
+function SiteNav({cart,onCart,onEmptyCart}){
   return (
-    <div className="scene">
-      <div className="scene__floor"/>
-      <div className="scene__shadow" style={{width:topW+24}}/>
-      <div className="desk" style={{width:topW}}>
-        <div className={"top"+(isCurve?" is-curve":"")} style={{width:topW}}>
-          <div className="top__surface" style={{height:surfaceH,background:colour.surface}}>
-            <div style={{position:"absolute",inset:0,borderRadius:"inherit",...grain}}/>
+    <header className="hd site-nav" id="siteNav">
+      <a className="brand" href="/">
+        <span className="brand__mark" aria-hidden="true"><DeskIcon/></span>
+        <span className="brand__text">Furniture Factory</span>
+      </a>
+      <nav className="nav" aria-label="Primary">
+        <a href="/customise" className="active" aria-current="page">Customise</a>
+        <a href="/corporate">Corporate</a>
+        <a href="/consultant">Consultant</a>
+        <a href="/faq">FAQ</a>
+        <a href="/our-story"><span className="nav__long">Our story</span><span className="nav__short">Story</span></a>
+        <a href="/certifications"><span className="nav__long">Certification &amp; features</span><span className="nav__short">Certs</span></a>
+      </nav>
+      <div className="tools">
+        <button className="iconbtn" type="button" onClick={()=>cart>0?onCart():onEmptyCart()} aria-label="Cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.4 12.4a1.6 1.6 0 0 0 1.6 1.3h8.2a1.6 1.6 0 0 0 1.6-1.3L22 7H6"/></svg>
+          <span className="cartcount" hidden={cart<=0}>{cart}</span>
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function EmptyCart({open,onClose}){
+  if(!open) return null;
+  return (
+    <div className="cart-empty show" role="dialog" aria-modal="true" aria-labelledby="cartEmptyTitle">
+      <div className="cart-empty__scrim" onClick={onClose}/>
+      <div className="cart-empty__panel editorial-card glass glass--readable">
+        <button type="button" className="cart-empty__close" onClick={onClose} aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <h2 id="cartEmptyTitle">Your cart is empty</h2>
+        <p>Nothing here yet. Build your desk below, then use Add to cart when you&rsquo;re ready.</p>
+        <button type="button" className="sub-cta" onClick={onClose}>Continue customising</button>
+      </div>
+    </div>
+  );
+}
+
+function SelectionSummary({sel,total,overlay,layout,open,onToggle,overlayRef}){
+  const topColour=TOP_COLOUR.find(c=>c.id===sel.topColour)||TOP_COLOUR[0];
+  const length=layout?.length||TOP_LENGTH.find(l=>l.id===sel.length)||TOP_LENGTH[0];
+  const breadth=layout?.breadth||TOP_BREADTH.find(b=>b.id===sel.breadth)||TOP_BREADTH[1];
+  const thick=layout?.thick||TOP_THICKNESS.find(t=>t.id===sel.thickness)||TOP_THICKNESS[1];
+  const items=overlay?[
+    {label:"Motor",value:sel.motor},
+    {label:"Frame colour",value:sel.frameColour},
+    {label:"Material",value:sel.material},
+    {label:"Top colour",value:topColour.name},
+    {label:"Size",value:`${length.name} × ${breadth.name} cm`},
+    {label:"Thickness",value:`${thick.name}mm`},
+    {label:"Edge",value:sel.edge},
+  ]:[
+    {label:"Motor",value:sel.motor},
+    {label:"Frame colour",value:sel.frameColour},
+    {label:"Material",value:sel.material},
+    {label:"Top colour",value:topColour.name},
+    {label:"Size",value:`${sel.length.replace("cm","")} × ${sel.breadth.replace("cm","")} cm`},
+    {label:"Thickness",value:sel.thickness},
+    {label:"Edge",value:sel.edge},
+  ];
+  const list=(
+    <ul className="config-summary__list">
+      {items.map(it=>(
+        <li className="config-summary__item" key={it.label}>
+          <span className="config-summary__label">{it.label}</span>
+          <span className="config-summary__val">{it.value}</span>
+        </li>
+      ))}
+    </ul>
+  );
+  const price=(
+    <dl className="config-summary__price">
+      <dt>Configured price</dt>
+      <dd>{fmt(total)} SGD</dd>
+    </dl>
+  );
+  if(overlay){
+    if(!open){
+      return (
+        <button type="button" className="build-overlay-tab" onClick={onToggle} aria-expanded="false">
+          Your build · {fmt(total)}
+        </button>
+      );
+    }
+    return (
+      <div ref={overlayRef} className="config-summary build-overlay">
+        <div className="editorial-copy">
+          <div className="build-overlay__head">
+            <h2 className="config-summary__h">Your build</h2>
+            <button type="button" className="build-overlay__toggle" onClick={onToggle} aria-label="Hide build summary" title="Hide build summary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
           </div>
-          <div className={"top__edge"+(isPlywood?" is-plywood":"")} style={{background:colour.edge}}>
-            <div style={{position:"absolute",inset:0,...grain}}/>
+          <div className="build-overlay__body">
+            {list}
+            {price}
           </div>
-        </div>
-        <div className="frame" style={{width:frameW}}>
-          <div className="frame__beam" style={{background:fs.beam}}/>
-          <div className="frame__legs">
-            {[0,1].map(i=>(
-              <div className="leg" key={i}>
-                <div className="leg__upper" style={{background:fs.upper}}/>
-                <div className="leg__lower" style={{background:fs.lower}}/>
-                <div className="leg__foot" style={{background:fs.foot}}/>
-              </div>
-            ))}
-          </div>
-          {isDual?(<>
-            <div className="motor" style={{left:"12%",width:32}}><span className="motor__dot" style={{right:5}}/></div>
-            <div className="motor" style={{right:"12%",width:32}}><span className="motor__dot" style={{left:5}}/></div>
-          </>):(
-            <div className="motor" style={{left:"50%",transform:"translateX(-50%)",width:frameW*.5}}>
-              <span className="motor__dot" style={{left:"50%",marginLeft:-2}}/>
-            </div>
-          )}
         </div>
       </div>
-      <div className="scene__dims"><b>{length.name}</b> × <b>{breadth.name}</b> cm · adjusts 72–122 cm</div>
+    );
+  }
+  return (
+    <div className="config-summary editorial-card glass glass--readable glass-panel">
+      <div className="editorial-copy">
+        <h2 className="config-summary__h">Your build</h2>
+        {list}
+        {price}
+        <p className="config-summary__hint">Drag to rotate the 3D desk. Front / Top / Side snap the camera angle.</p>
+      </div>
     </div>
+  );
+}
+
+/* ── live desk preview — Three.js orbit only ── */
+function DeskPreview({sel,total}){
+  const canvasRef=useRef(null);
+  const sceneRef=useRef(null);
+  const overlayRef=useRef(null);
+  const engineRef=useRef(null);
+  const [status,setStatus]=useState("loading");
+  const [activeView,setActiveView]=useState("front");
+  const [buildOpen,setBuildOpen]=useState(()=>{
+    try{return localStorage.getItem("ff.buildOpen")!=="0";}catch(e){return true;}
+  });
+  const layout=calcDeskLayout(sel);
+  const {length,breadth,thick}=layout;
+
+  const toggleBuild=()=>{
+    setBuildOpen(v=>{
+      const next=!v;
+      try{localStorage.setItem("ff.buildOpen",next?"1":"0");}catch(e){}
+      return next;
+    });
+  };
+
+  const pickView=(mode)=>{
+    setActiveView(mode);
+    engineRef.current?.setView(mode);
+  };
+
+  useLayoutEffect(()=>{
+    let engine=null;
+    let cancelled=false;
+    const mount=()=>{
+      const el=canvasRef.current;
+      if(cancelled||!el||!window.DeskPreview3D||engineRef.current) return false;
+      if(el.clientWidth<24||el.clientHeight<24) return false;
+      try{
+        engine=new window.DeskPreview3D(el,{onViewChange:(mode)=>setActiveView(mode)});
+        engineRef.current=engine;
+        engine.updateFromSel(sel);
+        engine.setView("front");
+        setStatus("ready");
+        return true;
+      }catch(err){
+        console.warn("3D preview unavailable",err);
+        setStatus("error");
+        return false;
+      }
+    };
+    const onReady=()=>mount();
+    const onFail=()=>{if(!cancelled&&!engineRef.current) setStatus("error");};
+    window.addEventListener("desk3d-ready",onReady);
+    window.addEventListener("desk3d-error",onFail);
+    const ro=new ResizeObserver(()=>mount());
+    if(canvasRef.current) ro.observe(canvasRef.current);
+    mount();
+    const poll=setInterval(()=>{if(mount()) clearInterval(poll);},100);
+    const fail=setTimeout(()=>{if(!cancelled&&!engineRef.current&&!window.DeskPreview3D) setStatus("error");},20000);
+    return()=>{cancelled=true;clearInterval(poll);clearTimeout(fail);ro.disconnect();window.removeEventListener("desk3d-ready",onReady);window.removeEventListener("desk3d-error",onFail);engine?.dispose();engineRef.current=null;};
+  },[]);
+
+  useEffect(()=>{
+    engineRef.current?.updateFromSel(sel);
+  },[sel]);
+
+  useEffect(()=>{
+    const engine=engineRef.current;
+    if(!engine||status!=="ready") return;
+    if(!buildOpen){
+      engine.setContentOffset(0);
+      return;
+    }
+    const sync=()=>{
+      const panel=overlayRef.current;
+      const scene=sceneRef.current;
+      if(!panel||!scene||!panel.offsetWidth) return;
+      const ratio=panel.offsetWidth/Math.max(scene.clientWidth,1);
+      engine.setContentOffset(Math.min(ratio*0.52,0.28));
+    };
+    sync();
+    const ro=new ResizeObserver(sync);
+    if(overlayRef.current) ro.observe(overlayRef.current);
+    if(sceneRef.current) ro.observe(sceneRef.current);
+    return()=>ro.disconnect();
+  },[buildOpen,status,sel]);
+
+  return (
+    <>
+      <div className="viewer__topbar">
+        <div className="viewer__toolbar" role="toolbar" aria-label="Preview view">
+          {["front","top","side"].map(v=>(
+            <button key={v} type="button" className={"viewer__viewbtn"+(activeView===v?" on":"")} onClick={()=>pickView(v)}>{v}</button>
+          ))}
+        </div>
+      </div>
+      <div className={"scene scene--3d scene--drag"+(buildOpen?" scene--desk-front":"")} ref={sceneRef}>
+        <SelectionSummary sel={sel} total={total} overlay layout={layout} open={buildOpen} onToggle={toggleBuild} overlayRef={overlayRef}/>
+        {status==="loading"&&<p className="desk-preview-loading">Loading 3D preview…</p>}
+        {status==="error"&&<p className="desk-preview-loading">3D preview couldn’t load. Try refreshing the page.</p>}
+        <div className="desk-stage desk-stage--3d desk-canvas" ref={canvasRef}/>
+      </div>
+    </>
   );
 }
 
@@ -1076,7 +1414,7 @@ function PillOpt({on,onClick,name,unit,add,soon}){
   );
 }
 
-const DEFAULT={motor:"Dual Motor",frameColour:"Black",material:"Real Wood",topColour:"Oak",length:"140cm",breadth:"60cm",edge:"Flat"};
+const DEFAULT={motor:"Dual Motor",frameColour:"Black",material:"Real Wood",topColour:"Oak",length:"140cm",breadth:"60cm",thickness:"25mm",edge:"Flat"};
 function load(){try{const s=JSON.parse(localStorage.getItem("ff.cfg"));if(s&&s.motor)return{...DEFAULT,...s};}catch(e){}return DEFAULT;}
 
 /* ── Stripe Checkout ── */
@@ -1125,7 +1463,7 @@ function Checkout({open,onClose,sel,total,paid}){
           <div className="co__done">
             <div className="co__done-ic"><BigCheck/></div>
             <h2>Payment received</h2>
-            <p>Thank you. Your made-to-order desk is confirmed — we’ll email {email||"your receipt"} and begin production. Delivery in 3–4 weeks.</p>
+            <p>Thank you. Your made-to-order desk is confirmed. We’ll email {email||"your receipt"} and begin production. Delivery in 3–4 weeks.</p>
             <button className="pay" onClick={onClose}>Done</button>
           </div>
         ) : (<>
@@ -1134,7 +1472,7 @@ function Checkout({open,onClose,sel,total,paid}){
             <div className="co__amount-lbl">Pay Furniture Factory</div>
             <div className="co__amount">{fmt(total)}<small>SGD</small></div>
             <dl className="co__lines">
-              <div className="co__line"><dt>Standing desk — custom<small>{sel.motor} · {sel.topColour} {sel.material} · {sel.length}×{sel.breadth}</small></dt><dd>{fmt(total)}</dd></div>
+              <div className="co__line"><dt>Standing desk, custom<small>{sel.motor} · {sel.topColour} {sel.material} · {sel.length}×{sel.breadth} · {sel.thickness}</small></dt><dd>{fmt(total)}</dd></div>
               <div className="co__line"><dt>Delivery & assembly<small>Singapore</small></dt><dd>Free</dd></div>
             </dl>
             <div className="co__total"><span>Total due</span><span>{fmt(total)}</span></div>
@@ -1166,11 +1504,12 @@ function App(){
   const [added,setAdded]=useState(false);
   const [toast,setToast]=useState(null);
   const [checkout,setCheckout]=useState(false);
+  const [emptyCart,setEmptyCart]=useState(false);
   const [paid,setPaid]=useState(false);
   const tt=useRef(null);
   useEffect(()=>{localStorage.setItem("ff.cfg",JSON.stringify(sel));},[sel]);
   useEffect(()=>{localStorage.setItem("ff.cart",JSON.stringify(cart));},[cart]);
-  useEffect(()=>{document.body.style.overflow=checkout?"hidden":"";},[checkout]);
+  useEffect(()=>{document.body.style.overflow=(checkout||emptyCart)?"hidden":"";},[checkout,emptyCart]);
   useEffect(()=>{
     const p=new URLSearchParams(window.location.search);
     if(p.get("paid")==="1"){
@@ -1180,8 +1519,14 @@ function App(){
       localStorage.setItem("ff.cart","0");
       window.history.replaceState({}, "", window.location.pathname);
     }else if(p.get("cancelled")==="1"){
-      setToast({t:"Checkout cancelled",b:"Your desk configuration is still saved — try again when ready."});
+      setToast({t:"Checkout cancelled",b:"Your desk configuration is still saved. Try again when ready."});
       clearTimeout(tt.current);tt.current=setTimeout(()=>setToast(null),4200);
+      window.history.replaceState({}, "", window.location.pathname);
+    }else if(p.get("checkout")==="1"){
+      let n=0;
+      try{n=JSON.parse(localStorage.getItem("ff.cart"))||0;}catch(e){}
+      if(n>0) setCheckout(true);
+      else setEmptyCart(true);
       window.history.replaceState({}, "", window.location.pathname);
     }
   },[]);
@@ -1194,44 +1539,46 @@ function App(){
   const length=TOP_LENGTH.find(l=>l.id===sel.length);
   const breadth=TOP_BREADTH.find(b=>b.id===sel.breadth);
   const edge=TOP_EDGE.find(e=>e.id===sel.edge);
-  const total=motor.base+frameColour.add+material.add+topColour.add+length.add+breadth.add+edge.add;
+  const thickness=TOP_THICKNESS.find(t=>t.id===sel.thickness)||TOP_THICKNESS[1];
+  const total=motor.base+frameColour.add+material.add+topColour.add+length.add+breadth.add+thickness.add+edge.add;
 
   const addToCart=()=>{
     setCart(c=>c+1);setAdded(true);
-    setToast({t:"Added to cart",b:`${sel.topColour} ${sel.material} top · ${sel.length} · ${sel.motor} frame — ${fmt(total)}`});
+    setToast({t:"Added to cart",b:`${sel.topColour} ${sel.material} top · ${sel.length} · ${sel.motor} frame · ${fmt(total)}`});
     clearTimeout(tt.current);tt.current=setTimeout(()=>setToast(null),3600);
   };
-  const z=(n)=>n===0?"—":"+ "+fmt(n);
+  const z=(n)=>n===0?"-":"+ "+fmt(n);
 
   return (
     <div>
-      <div className="site">
-      <div className="promo">Quality products straight to your doorstep — close to manufacturing price.</div>
-      <header className="hd">
-        <a className="brand" href="index.html">Furniture Factory</a>
-        <nav className="nav">
-          <a href="customise.html" className="active">Customise</a>
-          <a href="index.html#why">Why Us</a>
-        </nav>
-        <button className="cart" type="button" onClick={()=>cart>0&&setCheckout(true)}>Cart{cart>0&&<span className="cart__count">{cart}</span>}</button>
-      </header>
+      <div className="site site--customise">
+      <div className="wood-bg wood-bg--wash" aria-hidden="true"></div>
+      <SiteNav cart={cart} onCart={()=>setCheckout(true)} onEmptyCart={()=>setEmptyCart(true)}/>
 
-      <section className="intro">
-        <div className="crumbs">Home / Standing Desks / <span>Customise</span></div>
+      <div className="page-lead">
+        <div className="crumbs"><a href="index.html">Home</a> / <a href="customise.html">Standing Desks</a> / <span>Customise</span></div>
         <h1>Customise your standing desk</h1>
-        <p>Choose your frame and tabletop. The preview and price update as you build — the exact configuration we make in our factory and ship to your door.</p>
-      </section>
+        <p>Choose your frame and tabletop. The preview and price update as you build: the exact configuration we make in our factory and ship to your door.</p>
+      </div>
 
       <main className="wrap" data-screen-label="Customise">
         <div className="stage">
           <div className="viewer">
-            <span className="viewer__tag">Live preview</span>
-            <span className="viewer__price"><b>{fmt(total)}</b> SGD</span>
-            <DeskPreview sel={sel}/>
+            <div className="viewer__head">
+              <span className="viewer__tag">Live preview</span>
+              <div className="viewer__meta">
+                <span className="viewer__hint">Drag to rotate</span>
+                <span className="viewer__price"><b>{fmt(total)}</b> SGD</span>
+              </div>
+            </div>
+            <div className="viewer__body">
+              <DeskPreview sel={sel} total={total}/>
+            </div>
           </div>
         </div>
 
-        <div className="panel">
+        <div className="customise-aside">
+        <div className="panel editorial-card glass glass--readable glass--shimmer glass-panel">
           <section className="section">
             <h2 className="section__title"><span className="n">1</span> Frame</h2>
             <p className="section__note">Electric height-adjustable base. The motor sets lift capacity and speed.</p>
@@ -1270,42 +1617,56 @@ function App(){
                 {TOP_BREADTH.map(b=><PillOpt key={b.id} on={sel.breadth===b.id} onClick={()=>set("breadth")(b.id)} name={b.name} unit="cm" add={b.add} soon={b.soon}/>)}
               </div>
             </Group>
+            <Group label="Thickness" val={sel.thickness}>
+              <div className="opts opts--3">
+                {TOP_THICKNESS.map(t=><PillOpt key={t.id} on={sel.thickness===t.id} onClick={()=>set("thickness")(t.id)} name={t.name} unit="mm" add={t.add}/>)}
+              </div>
+            </Group>
             <Group label="Edge finish" val={sel.edge}>
               <div className="opts opts--2">
                 {TOP_EDGE.map(e=><CardOpt key={e.id} on={sel.edge===e.id} onClick={()=>set("edge")(e.id)} name={e.name} meta={e.meta} add={e.add} soon={e.soon}/>)}
               </div>
             </Group>
           </section>
+        </div>
 
-          <div className="summary">
-            <div className="summary__h"><h3>Your desk</h3><span>2 components · 7 options</span></div>
-            <dl className="bill">
-              <div className="bill__r"><dt>{sel.motor} frame</dt><dd>{fmt(motor.base)}</dd></div>
-              <div className="bill__r"><dt>{sel.frameColour} finish</dt><dd className={frameColour.add===0?"zero":""}>{z(frameColour.add)}</dd></div>
-              <div className="bill__r"><dt>{sel.material} top</dt><dd className={material.add===0?"zero":""}>{z(material.add)}</dd></div>
-              <div className="bill__r"><dt>{topColour.name} colour</dt><dd className={topColour.add===0?"zero":""}>{z(topColour.add)}</dd></div>
-              <div className="bill__r"><dt>{sel.length} × {sel.breadth}</dt><dd className={length.add+breadth.add===0?"zero":""}>{z(length.add+breadth.add)}</dd></div>
-              <div className="bill__r"><dt>{sel.edge} edge</dt><dd className={edge.add===0?"zero":""}>{z(edge.add)}</dd></div>
-              <hr className="bill__rule"/>
-              <div className="bill__t"><dt>Total</dt><dd>{fmt(total)}<small>SGD</small></dd></div>
-            </dl>
-            <div className="btns">
-              <button type="button" className="btn btn--primary" onClick={()=>setCheckout(true)}>Checkout securely</button>
-              <button type="button" className={"btn btn--ghost"+(added?" added":"")} onClick={addToCart}>{added?"Added to cart ✓":"Add to cart"}</button>
+        <div className="summary editorial-card glass glass--readable glass--shimmer glass-panel">
+          <div className="glass-panel__inner glass-panel__inner--single">
+            <div className="editorial-copy">
+              <div className="summary__h"><h3>Your desk</h3><span>2 components · 8 options</span></div>
+              <dl className="bill">
+                <div className="bill__r"><dt>{sel.motor} frame</dt><dd>{fmt(motor.base)}</dd></div>
+                <div className="bill__r"><dt>{sel.frameColour} finish</dt><dd className={frameColour.add===0?"zero":""}>{z(frameColour.add)}</dd></div>
+                <div className="bill__r"><dt>{sel.material} top</dt><dd className={material.add===0?"zero":""}>{z(material.add)}</dd></div>
+                <div className="bill__r"><dt>{topColour.name} colour</dt><dd className={topColour.add===0?"zero":""}>{z(topColour.add)}</dd></div>
+                <div className="bill__r"><dt>{sel.length} × {sel.breadth}</dt><dd className={length.add+breadth.add===0?"zero":""}>{z(length.add+breadth.add)}</dd></div>
+                <div className="bill__r"><dt>{sel.thickness} top</dt><dd className={thickness.add===0?"zero":""}>{z(thickness.add)}</dd></div>
+                <div className="bill__r"><dt>{sel.edge} edge</dt><dd className={edge.add===0?"zero":""}>{z(edge.add)}</dd></div>
+                <hr className="bill__rule"/>
+                <div className="bill__t"><dt>Total</dt><dd>{fmt(total)}<small>SGD</small></dd></div>
+              </dl>
+              <div className="btns">
+                <button type="button" className="btn btn--primary" onClick={()=>setCheckout(true)}>Checkout securely</button>
+                <button type="button" className={"btn btn--ghost"+(added?" added":"")} onClick={addToCart}>{added?"Added to cart ✓":"Add to cart"}</button>
+              </div>
+              <div className="assure">
+                <span><Tick/> Free delivery & assembly</span>
+                <span><Tick/> 10-year frame warranty</span>
+              </div>
+              <p className="fine">Made to order in our factory · 3–4 weeks · Singapore</p>
             </div>
-            <div className="assure">
-              <span><Tick/> Free delivery & assembly</span>
-              <span><Tick/> 10-year frame warranty</span>
-            </div>
-            <p className="fine">Made to order in our factory · 3–4 weeks · Singapore</p>
           </div>
+        </div>
         </div>
       </main>
 
-      <footer className="foot">
-        <div className="foot__in">
-          <div className="foot__b"><span className="brand__mark"><Leaf s={18}/></span> Furniture Factory</div>
-          <div className="foot__c">© 2026 Furniture Factory · Standing desks & accessories, factory direct · Singapore</div>
+      <footer className="hd site-foot">
+        <div className="foot__inner">
+          <div className="foot__left">
+            <a className="brand" href="/">Furniture Factory</a>
+            <span className="foot__c">Factory direct · Singapore</span>
+          </div>
+          <span className="foot__year">© 2026</span>
         </div>
       </footer>
       </div>
@@ -1315,10 +1676,14 @@ function App(){
       </div>
 
       <Checkout open={checkout} onClose={()=>{setCheckout(false);setPaid(false);}} sel={sel} total={total} paid={paid} />
+      <EmptyCart open={emptyCart} onClose={()=>setEmptyCart(false)}/>
     </div>
   );
 }
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   </script>
+  <script src="/customise-preview-scroll.js"></script>
+  <script src="/shared-nav.js"></script>
+  <script src="/shared-contact-fab.js"></script>
 </body>
 </html>
